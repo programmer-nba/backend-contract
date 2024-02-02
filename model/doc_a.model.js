@@ -119,7 +119,7 @@ const validate = (data) => {
             })
         ),
         partner: Joi.object({
-            id: Joi.string().label("กรอก ชื่อ ของผู้รับจ้างในสัญญา"),
+            id: Joi.string().label("กรอก ไอดี ของผู้รับจ้างในสัญญา"),
             name: Joi.string().label("กรอก ชื่อ ของผู้รับจ้างในสัญญา"),
             address: Joi.string().label("กรอก ที่อยุ่ ของผู้รับจ้างในสัญญา"),
             stamp: Joi.string().label("กรอก stamp ของผู้รับจ้างในสัญญา"),

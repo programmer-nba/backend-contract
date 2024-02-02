@@ -11,6 +11,11 @@ exports.create = async (req, res) => {
                 .send({ message: error.details[0].message, status: false });
         await new DocA({
             ...req.body,
+            status: {
+                name: "รอลงนาม",
+                timestamp: Date.now(),
+                sender: "",
+            }
         }).save();
 
         //--finished
@@ -36,13 +41,13 @@ exports.getAllDoc = async (req, res) => {
         return res.status(500).send({ message: "Internal Server Error" });
     }
 };
-exports.getAllDocbyOwnerId = async (req, res) => {
-    //get all contarct document by one
+exports.getAllDocbyPartnerId = async (req, res) => {
+    //get all contarct document by partner id
 
     try {
         const id = req.params.id;
-        const contract_docs = await DocA.findById(id);
-
+        const contract_docs = await DocA.find({ "partner.id": id });
+        //const c = contract_docs.partner.id
         if (!contract_docs) {
             return res.status(404)
                 .send({ status: false, message: "ไม่พบ ร่างหนังสือสัญญา" })
@@ -54,10 +59,10 @@ exports.getAllDocbyOwnerId = async (req, res) => {
     }
 };
 
-exports.getOneDocbyOwnerId = async (req, res) => {
+exports.getOneDocbyContractCode = async (req, res) => {
     //get one contarct document by one
     try {
-        const id = req.params.id;
+        const id = req.params.contract_code;
         const one_contract_doc = await DocA.findOne(id);
 
         if (!one_contract_doc) {
@@ -84,7 +89,7 @@ exports.update = async (req, res) => {
         const id = req.params.id;
         //const a = tax_id.tax_id;
         // รอแก้
-        //      if (!req.body.password) {
+
         DocA.findByIdAndUpdate(id, {
             ...req.body
         }
@@ -103,7 +108,6 @@ exports.update = async (req, res) => {
                 return res.status(500)
                     .send({ status: false, message: "มีบางอย่างผิดพลาด :" + id });
             });
-        //       }
     } catch (err) {
         return res.status(500).send({ message: "Internal Server Error" });
     }
@@ -128,6 +132,131 @@ exports.delete = async (req, res) => {
                     status: false,
                 });
             });
+    } catch (err) {
+        return res.status(500).send({ message: "Internal Server Error" });
+    }
+};
+
+exports.status_waiting_to_sign = async (req, res) => {
+    //--update contract document
+    try {
+        const updateStatus = await DocA.findOne({ _id: req.params.id });
+        if (updateStatus) {
+            updateStatus.status.push({
+                name: "รอลงนาม",
+                timestamp: Date.now(),
+                sender: "",
+            });
+            updateStatus.save();
+            return res.status(200).send({
+                status: true,
+                message: "สถานะการร่างสัญญา - รอลงนาม",
+                data: updateStatus,
+            });
+        } else {
+            return res.status(403).send({ message: "เกิดข้อผิดพลาด status_waiting_to_sign" });
+        }
+        //       }
+    } catch (err) {
+        return res.status(500).send({ message: "Internal Server Error" });
+    }
+};
+
+exports.status_editing_contract = async (req, res) => {
+    //--update contract document
+    try {
+        const updateStatus = await DocA.findOne({ _id: req.params.id });
+        if (updateStatus) {
+            updateStatus.status.push({
+                name: "กำลังแก้ไขร่างสัญญา",
+                timestamp: Date.now(),
+                sender: "",
+            });
+            updateStatus.save();
+            return res.status(200).send({
+                status: true,
+                message: "สถานะการร่างสัญญา - กำลังแก้ไขร่างสัญญา",
+                data: updateStatus,
+            });
+        } else {
+            return res.status(403).send({ message: "เกิดข้อผิดพลาด status_editing_contract" });
+        }
+        //       }
+    } catch (err) {
+        return res.status(500).send({ message: "Internal Server Error" });
+    }
+};
+
+exports.status_validate = async (req, res) => {
+    //--update contract document
+    try {
+        const updateStatus = await DocA.findOne({ _id: req.params.id });
+        if (updateStatus) {
+            updateStatus.status.push({
+                name: "รอตรวจสอบ",
+                timestamp: Date.now(),
+                sender: "",
+            });
+            updateStatus.save();
+            return res.status(200).send({
+                status: true,
+                message: "สถานะการร่างสัญญา - รอตรวจสอบ",
+                data: updateStatus,
+            });
+        } else {
+            return res.status(403).send({ message: "เกิดข้อผิดพลาด status_validate" });
+        }
+        //       }
+    } catch (err) {
+        return res.status(500).send({ message: "Internal Server Error" });
+    }
+};
+
+exports.status_successfully_sign = async (req, res) => {
+    //--update contract document
+    try {
+        const updateStatus = await DocA.findOne({ _id: req.params.id });
+        if (updateStatus) {
+            updateStatus.status.push({
+                name: "การลงนามสัญญาสำเร็จ",
+                timestamp: Date.now(),
+                sender: "",
+            });
+            updateStatus.save();
+            return res.status(200).send({
+                status: true,
+                message: "สถานะการร่างสัญญา - การลงนามสัญญาสำเร็จ",
+                data: updateStatus,
+            });
+        } else {
+            return res.status(403).send({ message: "เกิดข้อผิดพลาด status_successfully_sign" });
+        }
+        //       }
+    } catch (err) {
+        return res.status(500).send({ message: "Internal Server Error" });
+    }
+};
+
+exports.status_cancle_sign = async (req, res) => {
+    //--update contract document
+    try {
+        const updateStatus = await DocA.findOne({ _id: req.params.id });
+        if (updateStatus) {
+            updateStatus.status.push({
+                name: "ยกเลิกการลงนามสัญญา",
+                timestamp: Date.now(),
+                sender: "",
+            });
+            updateStatus.save();
+            return res.status(200).send({
+                status: true,
+                message: "สถานะการร่างสัญญา - ยกเลิกการลงนามสัญญา",
+                data: updateStatus,
+            });
+        } else {
+            return res.status(403).send({ message: "เกิดข้อผิดพลาด status_cancle_sign" });
+        }
+        //       }
     } catch (err) {
         return res.status(500).send({ message: "Internal Server Error" });
     }
