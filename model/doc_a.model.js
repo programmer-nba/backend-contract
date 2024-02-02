@@ -68,6 +68,10 @@ const DocumentsASchema = new mongoose.Schema({
         amount: { type: Number, required: false },
         text: { type: String, required: false },
     },
+    source_code: {
+        amount: { type: Number, required: false },
+        text: { type: String, required: false },
+    },
     status: [
         {
             name: { type: String, required: false },
@@ -155,6 +159,10 @@ const validate = (data) => {
         penal_cancle: {
             amount: Joi.number().default(0),
             text: Joi.string().label("penal_cancle text"),
+        },
+        source_code: {
+            amount: Joi.number().default(0),
+            text: Joi.string().label("source_code text"),
         },
         status: Joi.array().items(
             Joi.object({
