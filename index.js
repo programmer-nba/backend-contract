@@ -19,7 +19,7 @@ app.get("/", (req, res) => {
 });
 
 //eContract
-app.use("/econtract", require("./routes/doc_a"));
+app.use("/contract", require("./routes/doc_a"));
 
 const port = process.env.PORT || 9987;
 app.listen(port, () => {
