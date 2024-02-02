@@ -137,6 +137,7 @@ const validate = (data) => {
         remark: Joi.string().default(""),
         contractor: Joi.object({
             id: Joi.string().label("กรอก stamp ผู้ว่าจ้าง"),
+            name: Joi.string().label("กรอก ชื่อ ของผู้ว่าจ้าง"),
             address: Joi.string().label("กรอกที่อยู่ผู้ว่าจ้าง"),
             stamp: Joi.string().label("กรอก stamp ผู้ว่าจ้าง"),
             tax_id: Joi.string().label("กรอก stamp ผู้ว่าจ้าง"),
@@ -164,6 +165,8 @@ const validate = (data) => {
             name: Joi.string().label("กรอก ชื่อ ของผู้รับจ้างในสัญญา"),
             address: Joi.string().label("กรอก ที่อยุ่ ของผู้รับจ้างในสัญญา"),
             stamp: Joi.string().label("กรอก stamp ของผู้รับจ้างในสัญญา"),
+            tax_id: Joi.string().label("กรอก tax_id ผู้รับจ้างในสัญญา"),
+            tel: Joi.string().label("กรอก tel ผู้รับจ้างในสัญญา"),
             signature: Joi.array().items(
                 Joi.object({
                     name: Joi.string().label("กรอกชื่อผู้รับจ้างในสัญญา2"),
