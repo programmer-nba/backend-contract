@@ -7,6 +7,7 @@ const DocumentsASchema = new mongoose.Schema({
     contract_end: { type: Date, required: false },
     contract_code: { type: String, required: false },
     contractor: {
+        id: { type: String, required: false },
         name: { type: String, required: false },
         address: { type: String, required: false },
         stamp: { type: String, required: false },
@@ -76,6 +77,8 @@ const validate = (data) => {
             name: Joi.string().required().label("กรอกชื่อผู้ว่าจ้าง1"),
             address: Joi.string().required().label("กรอกที่อยู่ผู้ว่าจ้าง"),
             stamp: Joi.string().required().label("กรอก stamp ผู้ว่าจ้าง"),
+            tax_id: Joi.string().required().label("กรอก stamp ผู้ว่าจ้าง"),
+            tel: Joi.string().required().label("กรอก stamp ผู้ว่าจ้าง"),
             signature: Joi.array().items(
                 Joi.object({
                     name: Joi.string().required().label("กรอกชื่อผู้ว่าจ้าง2"),
@@ -133,9 +136,11 @@ const validate = (data) => {
         contract_code: Joi.string().label("กรอกเลขที่หนังสือสัญญา"),
         remark: Joi.string().default(""),
         contractor: Joi.object({
-            name: Joi.string().label("กรอกชื่อผู้ว่าจ้าง1"),
+            id: Joi.string().label("กรอก stamp ผู้ว่าจ้าง"),
             address: Joi.string().label("กรอกที่อยู่ผู้ว่าจ้าง"),
             stamp: Joi.string().label("กรอก stamp ผู้ว่าจ้าง"),
+            tax_id: Joi.string().label("กรอก stamp ผู้ว่าจ้าง"),
+            tel: Joi.string().label("กรอก stamp ผู้ว่าจ้าง"),
             signature: Joi.array().items(
                 Joi.object({
                     name: Joi.string().label("กรอกชื่อผู้ว่าจ้าง2"),
