@@ -26,7 +26,7 @@ const DocumentsASchema = new mongoose.Schema({
     body: [
         {
             no: { type: String, required: false },
-            title: { type: String, required: false },
+            title: { type: String },
             subtitle: { type: String, required: false },
             detail: []
         }
@@ -87,68 +87,6 @@ const DocumentsASchema = new mongoose.Schema({
 
 const DocA = mongoose.model("contract_docs", DocumentsASchema);
 const validate = (data) => {
-    const schema = Joi.object({
-        contract_name: Joi.string().required().label("กรอกชื่อหนังสือสัญญา"),
-        contract_start: Joi.date().default(Date.now()),
-        contract_end: Joi.date(),
-        contract_code: Joi.string().required().label("กรอกเลขที่หนังสือสัญญา"),
-        remark: Joi.string().default(""),
-        contractor: Joi.object({
-            name: Joi.string().required().label("กรอกชื่อผู้ว่าจ้าง1"),
-            address: Joi.string().required().label("กรอกที่อยู่ผู้ว่าจ้าง"),
-            stamp: Joi.string().required().label("กรอก stamp ผู้ว่าจ้าง"),
-            tax_id: Joi.string().required().label("กรอก stamp ผู้ว่าจ้าง"),
-            tel: Joi.string().required().label("กรอก stamp ผู้ว่าจ้าง"),
-            signature: Joi.array().items(
-                Joi.object({
-                    name: Joi.string().required().label("กรอกชื่อผู้ว่าจ้าง2"),
-                    role: Joi.string().required().label("กรอก Role ผู้ว่าจ้าง"),
-                    position: Joi.string().required().label("กรอกตำแหน่งผู้ว่าจ้าง"),
-                    sign: Joi.string().required().label("กรอกลายเซ็นต์ชื่อผู้ว่าจ้าง"),
-                    stamp: Joi.boolean().required().label("ตรวจสอบ stamp ผู้ว่าจ้าง")
-                })
-            )
-        }),
-        body: Joi.array().items(
-            Joi.object({
-                no: Joi.string().required().label("กรอก no in body"),
-                title: Joi.string().required().label("กรอก title in body"),
-                subtitle: Joi.string().required().label("กรอก subtitle in body"),
-                //detail: []
-            })
-        ),
-        partner: Joi.object({
-            id: Joi.string().required().label("กรอก ชื่อ ของผู้รับจ้างในสัญญา"),
-            name: Joi.string().required().label("กรอก ชื่อ ของผู้รับจ้างในสัญญา"),
-            address: Joi.string().required().label("กรอก ที่อยุ่ ของผู้รับจ้างในสัญญา"),
-            stamp: Joi.string().required().label("กรอก stamp ของผู้รับจ้างในสัญญา"),
-            signature: Joi.array().items(
-                Joi.object({
-                    name: Joi.string().required().label("กรอกชื่อผู้รับจ้างในสัญญา2"),
-                    role: Joi.string().required().label("กรอก Role ผู้รับจ้างในสัญญา"),
-                    position: Joi.string().required().label("กรอกตำแหน่งผู้รับจ้างในสัญญา"),
-                    sign: Joi.string().required().label("กรอกลายเซ็นต์ชื่อผู้รับจ้างในสัญญา"),
-                    stamp: Joi.boolean().required().label("ตรวจสอบ stamp ผู้รับจ้างในสัญญา")
-                }
-                )
-            )
-
-        }),
-        status: Joi.array().items(
-            Joi.object({
-                name: Joi.string().required().label("กรอก name in status"),
-                date: Joi.date().default(Date.now()),
-                sender: Joi.string().required().label("กรอก sender in status"),
-            })
-        ),
-        refer_doc: Joi.array().items(
-            Joi.object({
-                code: Joi.string().required().label("กรอก code in refer_doc"),
-                name: Joi.string().required().label("กรอก name in refer_doc"),
-            })
-        )
-    });
-
     const schema2 = Joi.object({
         contract_name: Joi.string().label("กรอกชื่อหนังสือสัญญา"),
         contract_start: Joi.date().default(Date.now()),
@@ -233,6 +171,6 @@ const validate = (data) => {
         )
     });
     //return schema.validate(data);
-    return schema2.validate(data);
+    return schema2(data);
 }
-module.exports = { DocA, validate }
+module.exports = { DocA }

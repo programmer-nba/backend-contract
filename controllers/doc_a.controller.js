@@ -1,10 +1,11 @@
-const { DocA, validate } = require("../model/doc_a.model")
+//const { DocA, validate } = require("../model/doc_a.model")
+const { DocA } = require("../model/doc_a.model")
 
 exports.create = async (req, res) => {
     //new contarct document
     try {
-        const { error } = validate(req.body);
-
+        //  const { error } = validate(req.body);
+        const { error } = req.body;
         if (error)
             return res.status(403)
                 .send({ message: error.details[0].message, status: false });
