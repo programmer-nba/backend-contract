@@ -59,11 +59,11 @@ exports.getAllDocbyPartnerId = async (req, res) => {
     }
 };
 
-exports.getOneDocbyContractCode = async (req, res) => {
+exports.getOneDocbyId = async (req, res) => {
     //get one contarct document by one
     try {
-        const id = req.params.contract_code;
-        const one_contract_doc = await DocA.findOne(id);
+        const id = req.params.id;
+        const one_contract_doc = await DocA.findById(id);
 
         if (!one_contract_doc) {
             return res.status(404)

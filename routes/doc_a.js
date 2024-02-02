@@ -4,7 +4,7 @@ const con_a = require("../controllers/doc_a.controller");
 router.post("/add", con_a.create);
 router.get("/all", con_a.getAllDoc);
 router.get("/all/:id", con_a.getAllDocbyPartnerId);
-router.get("/one/:id", con_a.getOneDocbyContractCode);
+router.get("/one/:id", con_a.getOneDocbyId);
 router.put("/:id", con_a.update);
 router.delete("/:id", con_a.delete);
 
