@@ -48,6 +48,26 @@ const DocumentsASchema = new mongoose.Schema({
             }
         ]
     },
+    total_price: {
+        amount: { type: Number, required: false },
+        text: { type: String, required: false },
+    },
+    p1_price: {
+        amount: { type: Number, required: false },
+        text: { type: String, required: false },
+    },
+    p2_price: {
+        amount: { type: Number, required: false },
+        text: { type: String, required: false },
+    },
+    penal_no2: {
+        amount: { type: Number, required: false },
+        text: { type: String, required: false },
+    },
+    penal_cancle: {
+        amount: { type: Number, required: false },
+        text: { type: String, required: false },
+    },
     status: [
         {
             name: { type: String, required: false },
@@ -177,8 +197,27 @@ const validate = (data) => {
                 }
                 )
             )
-
         }),
+        total_price: {
+            amount: Joi.number().default(0),
+            text: Joi.string().label("total_price text"),
+        },
+        p1_price: {
+            amount: Joi.number().default(0),
+            text: Joi.string().label("p1_price text"),
+        },
+        p2_price: {
+            amount: Joi.number().default(0),
+            text: Joi.string().label("p2_price text"),
+        },
+        penal_no2: {
+            amount: Joi.number().default(0),
+            text: Joi.string().label("penal_no2 text"),
+        },
+        penal_cancle: {
+            amount: Joi.number().default(0),
+            text: Joi.string().label("penal_cancle text"),
+        },
         status: Joi.array().items(
             Joi.object({
                 name: Joi.string().label("กรอก name in status"),

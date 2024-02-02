@@ -38,9 +38,9 @@
         }
     ],
     "partner": {
-        "id": "",
+        "id": "-",
         "name": "นางสาว บี ขยันทำงาน",
-        "address": "",
+        "address": "nisksksksks",
         "stamp": "stamp นางสาว บี ขยันทำงาน",
         "tax_id": "846211616161",
         "tel": "785212222020",
@@ -53,6 +53,26 @@
                 "stamp": false
             }
         ]
+    },
+    "total_price": {
+        "amount": 0,
+        "text": "total_price 1000"
+    },
+    "p1_price": {
+        "amount": 0,
+        "text": "p1_price 1000"
+    },
+    "p2_price": {
+        "amount": 0,
+        "text": "p2_price 1000"
+    },
+    "penal_no2": {
+        "amount": 0,
+        "text": "penal_no2 1000"
+    },
+    "penal_cancle": {
+        "amount": 0,
+        "text": "penal_cancle 1000"
     },
     "status": [
         {
