@@ -140,14 +140,14 @@ exports.delete = async (req, res) => {
 exports.status_waiting_to_sign = async (req, res) => {
     //--update contract document
     try {
-        const updateStatus = await DocA.findOne({ _id: req.params.id });
+        const updateStatus = await DocA.findById(req.params.id);
         if (updateStatus) {
             updateStatus.status.push({
                 name: "รอลงนาม",
                 timestamp: Date.now(),
                 sender: "",
             });
-            updateStatus.save();
+            await updateStatus.save();
             return res.status(200).send({
                 status: true,
                 message: "สถานะการร่างสัญญา - รอลงนาม",
@@ -165,7 +165,7 @@ exports.status_waiting_to_sign = async (req, res) => {
 exports.status_editing_contract = async (req, res) => {
     //--update contract document
     try {
-        const updateStatus = await DocA.findOne({ _id: req.params.id });
+        const updateStatus = await DocA.findById(req.params.id);
         if (updateStatus) {
             updateStatus.status.push({
                 name: "กำลังแก้ไขร่างสัญญา",
@@ -190,7 +190,7 @@ exports.status_editing_contract = async (req, res) => {
 exports.status_validate = async (req, res) => {
     //--update contract document
     try {
-        const updateStatus = await DocA.findOne({ _id: req.params.id });
+        const updateStatus = await DocA.findById(req.params.id);
         if (updateStatus) {
             updateStatus.status.push({
                 name: "รอตรวจสอบ",
@@ -215,7 +215,7 @@ exports.status_validate = async (req, res) => {
 exports.status_successfully_sign = async (req, res) => {
     //--update contract document
     try {
-        const updateStatus = await DocA.findOne({ _id: req.params.id });
+        const updateStatus = await DocA.findById(req.params.id);
         if (updateStatus) {
             updateStatus.status.push({
                 name: "การลงนามสัญญาสำเร็จ",
@@ -240,7 +240,7 @@ exports.status_successfully_sign = async (req, res) => {
 exports.status_cancle_sign = async (req, res) => {
     //--update contract document
     try {
-        const updateStatus = await DocA.findOne({ _id: req.params.id });
+        const updateStatus = await DocA.findById(req.params.id);
         if (updateStatus) {
             updateStatus.status.push({
                 name: "ยกเลิกการลงนามสัญญา",
