@@ -172,7 +172,7 @@ exports.status_editing_contract = async (req, res) => {
                 timestamp: Date.now(),
                 sender: "",
             });
-            updateStatus.save();
+            await updateStatus.save();
             return res.status(200).send({
                 status: true,
                 message: "สถานะการร่างสัญญา - กำลังแก้ไขร่างสัญญา",
@@ -197,7 +197,7 @@ exports.status_validate = async (req, res) => {
                 timestamp: Date.now(),
                 sender: "",
             });
-            updateStatus.save();
+            await updateStatus.save();
             return res.status(200).send({
                 status: true,
                 message: "สถานะการร่างสัญญา - รอตรวจสอบ",
@@ -222,7 +222,7 @@ exports.status_successfully_sign = async (req, res) => {
                 timestamp: Date.now(),
                 sender: "",
             });
-            updateStatus.save();
+            await updateStatus.save();
             return res.status(200).send({
                 status: true,
                 message: "สถานะการร่างสัญญา - การลงนามสัญญาสำเร็จ",
@@ -247,7 +247,7 @@ exports.status_cancle_sign = async (req, res) => {
                 timestamp: Date.now(),
                 sender: "",
             });
-            updateStatus.save();
+            await updateStatus.save();
             return res.status(200).send({
                 status: true,
                 message: "สถานะการร่างสัญญา - ยกเลิกการลงนามสัญญา",
