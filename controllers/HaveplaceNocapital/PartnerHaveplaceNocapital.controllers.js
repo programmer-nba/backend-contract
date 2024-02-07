@@ -4,6 +4,8 @@ const Joi = require("joi");
 const { google } = require("googleapis");
 const { default: axios } = require("axios");
 const req = require("express/lib/request.js");
+const mongoose = require("mongoose");
+const ObjectId = mongoose.Types.ObjectId;
 const multer = require("multer");
 const jwt = require("jsonwebtoken");
 const {
@@ -30,21 +32,18 @@ exports.createNew = async (req, res) => {
   try {
     const id = req.params.id;
     const detail1 = await HaveplaceNocapital.findById(id);
-
     const newData = {
-      ...detail1.toObject(),
       contract_base_id: detail1._id,
-      ...req.body,
+      ...detail1.toObject(),
     };
+    delete newData._id;
     const detail = await new PartnerHaveplaceNocapital(newData).save();
     res.status(201).send({
       message: "เพิ่มข้อมูล สัญญามีทุน ไม่มีที่ สำเร็จ",
       status: true,
     });
   } catch (err) {
-    return res
-      .status(500)
-      .send({ status: false, message: "มีบางอย่างผิดพลาด" });
+    return res.status(500).send({ status: false, message: err.message });
   }
 };
 exports.GetAllContractNew = async (req, res) => {
