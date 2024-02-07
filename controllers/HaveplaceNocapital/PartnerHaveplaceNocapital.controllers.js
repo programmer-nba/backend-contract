@@ -49,14 +49,20 @@ exports.createNew = async (req, res) => {
 exports.createCode = async (req, res) => {
   try {
     const name = req.body.name;
-    console.log(name)
     const detail1 = await HaveplaceNocapital.findOne({ contract_code: name });
-
-    console.log(detail1)
 
     const newData = {
       contract_base_id: detail1._id,
       ...detail1.toObject(),
+      partner: {
+        id:req.body.partner_id,
+        name: req.body.partner_name,
+        address:req.body.partner_address,
+        stamp:req.body.partner_stamp ,
+        tax_id:req.body.partner_tax_id ,
+        tel:req.body.partner_tel,
+        signature:req.body.partner_signature,
+      },
     };
     delete newData._id;
     const detail = await new PartnerHaveplaceNocapital(newData).save();
