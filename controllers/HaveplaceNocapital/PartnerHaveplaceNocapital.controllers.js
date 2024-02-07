@@ -7,10 +7,9 @@ const req = require("express/lib/request.js");
 const multer = require("multer");
 const jwt = require("jsonwebtoken");
 const {
-  HaveplaceNocapital,
+  PartnerHaveplaceNocapital,
   validate,
-} = require("../../model/HaveplaceNocapital/HaveplaceNocapital.models");
-
+} = require("../../model/HaveplaceNocapital/partner_HaveplaceNocapital.models");
 const storage = multer.diskStorage({
   filename: function (req, file, cb) {
     cb(null, Date.now() + "-" + file.originalname);
@@ -23,9 +22,9 @@ const {
 } = require("../../funtions/uploadfilecreate");
 const { admin } = require("googleapis/build/src/apis/admin");
 
-exports.create = async (req, res) => {
+exports.createNew = async (req, res) => {
   try {
-    await new HaveplaceNocapital({
+    await new PartnerHaveplaceNocapital({
       ...req.body,
     }).save();
     res.status(201).send({
@@ -38,9 +37,9 @@ exports.create = async (req, res) => {
       .send({ status: false, message: "มีบางอย่างผิดพลาด" });
   }
 };
-exports.GetAllContract = async (req, res) => {
+exports.GetAllContractNew = async (req, res) => {
   try {
-    const details = await HaveplaceNocapital.find();
+    const details = await PartnerHaveplaceNocapital.find();
     if (details.length > 0) {
       return res.status(200).send({
         status: true,
@@ -59,10 +58,10 @@ exports.GetAllContract = async (req, res) => {
     });
   }
 };
-exports.GetContractByID = async (req, res) => {
+exports.GetContractByIDNew = async (req, res) => {
   try {
     const id = req.params.id;
-    const details = await HaveplaceNocapital.findById(id);
+    const details = await PartnerHaveplaceNocapital.findById(id);
     if (details) {
       return res.status(200).send({
         status: true,
@@ -81,7 +80,7 @@ exports.GetContractByID = async (req, res) => {
     });
   }
 };
-exports.EditContract = async (req, res) => {
+exports.EditContractNew = async (req, res) => {
   try {
     const id = req.params.id;
     if (!req.body) {
@@ -89,7 +88,7 @@ exports.EditContract = async (req, res) => {
         .status(400)
         .send({ status: false, message: error.details[0].message });
     }
-    const edit = await HaveplaceNocapital.findByIdAndUpdate(id, {
+    const edit = await PartnerHaveplaceNocapital.findByIdAndUpdate(id, {
       ...req.body,
     });
     if (edit) {
@@ -109,5 +108,3 @@ exports.EditContract = async (req, res) => {
       .send({ status: false, message: "มีบางอย่างผิดพลาด" });
   }
 };
-
-  
