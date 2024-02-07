@@ -25,8 +25,13 @@ const { admin } = require("googleapis/build/src/apis/admin");
 
 exports.create = async (req, res) => {
   try {
+    const status_sign = {
+      name: "รอลงนาม",
+      timestamps: dayjs(Date.now()).format(""),
+    };
     await new HaveplaceNocapital({
       ...req.body,
+      status_sign: status_sign,
     }).save();
     res.status(201).send({
       message: "เพิ่มข้อมูล สัญญามีทุน ไม่มีที่ สำเร็จ",
@@ -109,5 +114,3 @@ exports.EditContract = async (req, res) => {
       .send({ status: false, message: "มีบางอย่างผิดพลาด" });
   }
 };
-
-  

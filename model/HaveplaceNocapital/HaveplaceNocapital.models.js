@@ -67,6 +67,7 @@ const HaveplaceNocapitalSchema = new mongoose.Schema({
       name: { type: String, required: false },
     },
   ],
+  status_sign: {type: Array, required: false,},
   remark: { type: String, required: false },
 });
 
