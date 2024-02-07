@@ -46,6 +46,29 @@ exports.createNew = async (req, res) => {
     return res.status(500).send({ status: false, message: err.message });
   }
 };
+exports.createCode = async (req, res) => {
+  try {
+    const name = req.body.name;
+    console.log(name)
+    const detail1 = await HaveplaceNocapital.findOne({ contract_code: name });
+
+    console.log(detail1)
+
+    const newData = {
+      contract_base_id: detail1._id,
+      ...detail1.toObject(),
+    };
+    delete newData._id;
+    const detail = await new PartnerHaveplaceNocapital(newData).save();
+    res.status(201).send({
+      message: "เพิ่มข้อมูล สัญญามีทุน ไม่มีที่ สำเร็จ",
+      status: true,
+    });
+  } catch (err) {
+    return res.status(500).send({ status: false, message: err.message });
+  }
+};
+
 exports.GetAllContractNew = async (req, res) => {
   try {
     const details = await PartnerHaveplaceNocapital.find();

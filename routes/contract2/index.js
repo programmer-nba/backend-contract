@@ -9,9 +9,11 @@ router.get("/GetAllContract", contract.GetAllContract);
 router.get("/GetContractBy/:id", contract.GetContractByID);
 
 //สร้างอีกใบสัญญา
-router.post("/createNew/:id", contractNew.createNew);
+router.post("/createNew/:id", contractNew.createNew);//สร้างแบบ BY ID
+router.post("/createCode", contractNew.createCode);
 router.put("/EditContractNew/:id", contractNew.EditContractNew)
 router.get("/GetAllContractNew", contractNew.GetAllContractNew);
 router.get("/GetContractByIDNew/:id", contractNew.GetContractByIDNew);
+
 
 module.exports = router;
