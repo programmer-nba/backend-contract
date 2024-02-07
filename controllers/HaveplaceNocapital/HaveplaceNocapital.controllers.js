@@ -28,15 +28,56 @@ exports.create = async (req, res) => {
     await new HaveplaceNocapital({
       ...req.body,
     }).save();
-    res
-      .status(201)
-      .send({
-        message: "เพิ่มข้อมูล สัญญามีทุน ไม่มีที่ สำเร็จ",
-        status: true,
-      });
+    res.status(201).send({
+      message: "เพิ่มข้อมูล สัญญามีทุน ไม่มีที่ สำเร็จ",
+      status: true,
+    });
   } catch (err) {
     return res
       .status(500)
       .send({ status: false, message: "มีบางอย่างผิดพลาด" });
+  }
+};
+exports.GetAllContract = async (req, res) => {
+  try {
+    const details = await HaveplaceNocapital.find();
+    if (details.length > 0) {
+      return res.status(200).send({
+        status: true,
+        message: "ดึงข้อมูล สัญญา มีที่่ไม่มีทุน สำเร็จ",
+        data: details,
+      });
+    } else {
+      return res
+        .status(404)
+        .send({ message: "ไม่พบข้อมูลสัญญา", status: false });
+    }
+  } catch (error) {
+    res.status(500).send({
+      message: "มีบางอย่างผิดพลาด",
+      status: false,
+    });
+  }
+};
+exports.GetContractByID = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const details = await HaveplaceNocapital.findById(id);
+    if (details) {
+      return res.status(200).send({
+        status: true,
+        message: "ดึงข้อมูล สัญญา มีที่่ไม่มีทุน สำเร็จ",
+        data: details,
+      });
+    } else {
+      return res
+        .status(404)
+        .send({ message: "ไม่พบข้อมุลสัญญา", status: false });
+    }
+  } catch (error) {
+    res.status(500).send({
+      message: "มีบางอย่างผิดพลาด",
+      status: false,
+    });
   }
 };
