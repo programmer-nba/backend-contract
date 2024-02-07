@@ -25,10 +25,7 @@ const { admin } = require("googleapis/build/src/apis/admin");
 
 exports.create = async (req, res) => {
   try {
-    const status_sign = {
-      name: "รอลงนาม",
-      timestamps: dayjs(Date.now()).format(""),
-    };
+   
     await new HaveplaceNocapital({
       ...req.body,
       status_sign: status_sign,

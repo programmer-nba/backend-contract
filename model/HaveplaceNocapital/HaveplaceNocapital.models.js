@@ -67,7 +67,7 @@ const HaveplaceNocapitalSchema = new mongoose.Schema({
       name: { type: String, required: false },
     },
   ],
-  status_sign: {type: Array, required: false,},
+//   status_sign: {type: Array, required: false,},
   remark: { type: String, required: false },
 });
 
@@ -75,7 +75,7 @@ const HaveplaceNocapital = mongoose.model(
   "HaveplaceNocapital",
   HaveplaceNocapitalSchema
 );
-const validate = (data) => {
+const validate2 = (data) => {
   const schema2 = Joi.object({
     contract_name: Joi.string().label("กรอกชื่อหนังสือสัญญา"),
     contract_start: Joi.date().default(Date.now()),
@@ -133,4 +133,4 @@ const validate = (data) => {
   //return schema.validate(data);
   return schema2(data);
 };
-module.exports = { HaveplaceNocapital, validate };
+module.exports = { HaveplaceNocapital, validate2 };

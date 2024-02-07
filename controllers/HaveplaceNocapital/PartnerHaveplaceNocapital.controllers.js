@@ -10,6 +10,10 @@ const {
   PartnerHaveplaceNocapital,
   validate,
 } = require("../../model/HaveplaceNocapital/partner_HaveplaceNocapital.models");
+const {
+  HaveplaceNocapital,
+  validate2,
+} = require("../../model/HaveplaceNocapital/HaveplaceNocapital.models");
 const storage = multer.diskStorage({
   filename: function (req, file, cb) {
     cb(null, Date.now() + "-" + file.originalname);
@@ -24,9 +28,14 @@ const { admin } = require("googleapis/build/src/apis/admin");
 
 exports.createNew = async (req, res) => {
   try {
-    await new PartnerHaveplaceNocapital({
+    const id = req.params.id;
+    const detail1 = await HaveplaceNocapital.findById(id);
+    
+    const newData = {
+      ...detail1.toObject(),
       ...req.body,
-    }).save();
+    };
+    const detail = await new PartnerHaveplaceNocapital(newData).save();
     res.status(201).send({
       message: "เพิ่มข้อมูล สัญญามีทุน ไม่มีที่ สำเร็จ",
       status: true,
