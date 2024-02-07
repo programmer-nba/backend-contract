@@ -81,3 +81,31 @@ exports.GetContractByID = async (req, res) => {
     });
   }
 };
+exports.EditContract = async (req, res) => {
+    try {
+      const id = req.params.id;
+      if (!req.body) {
+        return res
+          .status(400)
+          .send({ status: false, message: error.details[0].message });
+      }
+      const edit = await HaveplaceNocapital.findByIdAndUpdate(id, {
+        ...req.body,
+      });
+      if (edit) {
+        return res.send({
+          status: true,
+          message: "เเก้ไขข้อมูลสัญญาสำเร็จ",
+        });
+      } else {
+        return res.status(400).send({
+          status: false,
+          message: "เเก้ไขข้อมูลสัญญาไมสำเร็จ",
+        });
+      }
+    } catch (err) {
+      return res
+        .status(500)
+        .send({ status: false, message: "มีบางอย่างผิดพลาด" });
+    }
+  };

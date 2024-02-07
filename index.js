@@ -16,7 +16,7 @@ app.use(cors());
 const prefix = "/contract";
 
 // สัญญา มีที่ไม่มีทุน
-app.use(prefix + "/HaveplaceNocapital", require("./routes/contract2/index"));
+app.use(prefix + "/HaveplaceNocapital", require("./routes/contract2/index")); //สํญญา มีที่ไม่มีทุน
 
 //test-sample
 app.get("/", (req, res) => {
@@ -24,7 +24,7 @@ app.get("/", (req, res) => {
 });
 
 // //eContract
-// app.use("/contract", require("./routes/doc_a"));
+app.use(prefix + "/WriteProgram", require("./routes/doc_a"));
 
 const port = process.env.PORT || 9987;
 app.listen(port, () => {
