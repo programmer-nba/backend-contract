@@ -16,7 +16,10 @@ app.use(cors());
 const prefix = "/contract";
 
 // สัญญา มีที่ไม่มีทุน
-app.use(prefix + "/HaveplaceNocapital", require("./routes/contract2/index")); //สํญญา มีที่ไม่มีทุน
+app.use(prefix + "/HaveplaceNocapital", require("./routes/contract2/index"));
+
+// รับข้อมูลจาก partner
+app.use(prefix + "/partner", require("./routes/partner/index")); 
 
 //test-sample
 app.get("/", (req, res) => {

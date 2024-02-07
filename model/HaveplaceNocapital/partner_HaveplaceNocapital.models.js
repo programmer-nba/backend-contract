@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const Joi = require("joi");
 
 const PartnerHaveplaceNocapitalSchema = new mongoose.Schema({
+  contract_base_id: { type: String, required: false },
   contract_name: { type: String, required: false },
   contract_head: [
     {

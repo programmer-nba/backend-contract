@@ -30,9 +30,10 @@ exports.createNew = async (req, res) => {
   try {
     const id = req.params.id;
     const detail1 = await HaveplaceNocapital.findById(id);
-    
+
     const newData = {
       ...detail1.toObject(),
+      contract_base_id: detail1._id,
       ...req.body,
     };
     const detail = await new PartnerHaveplaceNocapital(newData).save();
