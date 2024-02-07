@@ -7,7 +7,7 @@ const mongoose = require("mongoose");
 const partnerSchema = new mongoose.Schema(
   {
     //บุคคล
-    username: { type: String, required: false, unique: true },
+    username: { type: String, required: false },
     password: { type: String, required: false },
     antecedent: { type: String, required: false },
     partner_name: { type: String, required: false },
