@@ -5,5 +5,5 @@ const parter = require("../../controllers/partner/partner.controllers")
 router.post("/create", parter.create);
 router.delete("/deleteAllPartner",parter.deleteAllPartner)
 router.get("/GetAllPartner",parter.GetAllPartner)
-
+router.put("/AddStatus/:id", parter.AddStatus)//เพิ่มสถาณะ
 module.exports = router;

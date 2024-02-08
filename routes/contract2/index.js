@@ -14,7 +14,6 @@ router.get("/GetContractBy/:id", contract.GetContractByID);
 router.post("/createNew/:id", contractNew.createNew); //สร้างแบบ BY ID
 router.post("/createCode", contractNew.createCode);
 router.put("/EditContractNew/:id", contractNew.EditContractNew);
-router.put("/AddStatus/:id", contractNew.AddStatus)//เพิ่มสถาณะ
 router.delete("/deleteContract/:id", contractNew.deleteContract);
 router.get("/GetAllContractNewByCode", contractNew.GetAllContractNewByCode)
 router.get("/GetAllContractNew", contractNew.GetAllContractNew);

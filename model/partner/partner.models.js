@@ -6,6 +6,7 @@ const mongoose = require("mongoose");
 // Define the schema for the HotelUser entity
 const partnerSchema = new mongoose.Schema(
   {
+    partner_id: { type: String, required: false },
     antecedent: { type: String, required: false },
     partner_name: { type: String, required: false },
     partner_phone: { type: String, required: false },

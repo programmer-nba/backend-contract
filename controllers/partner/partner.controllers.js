@@ -26,6 +26,7 @@ const { admin } = require("googleapis/build/src/apis/admin");
 exports.create = async (req, res) => {
   try {
     const data = {
+      partner_id :req.body._id,
       partner_name: req.body.partner_name,
       partner_phone: req.body.partner_phone,
       partner_email: req.body.partner_email,
@@ -94,5 +95,33 @@ exports.GetAllPartner = async (req, res) => {
       message: "มีบางอย่างผิดพลาด",
       status: false,
     });
+  }
+};
+exports.AddStatus = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const updateStatus = await Partner.findOne({ _id: id });
+
+    if (updateStatus) {
+      updateStatus.status.push({
+        name: "",
+        timestamps: dayjs(Date.now()).format(""),
+      });
+      updateStatus.save();
+      return res.status(200).send({
+        status: true,
+        message: "เพิ่มสถาณะสำเร็จ",
+        data: updateStatus,
+      });
+    } else {
+      return res.status(500).send({
+        message: "มีบางอย่างผิดพลาด",
+        status: false,
+      });
+    }
+  } catch (error) {
+    return res
+      .status(500)
+      .send({ message: "มีบางอย่างผิดพลาด", status: false });
   }
 };
