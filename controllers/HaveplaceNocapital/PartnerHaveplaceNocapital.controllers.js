@@ -39,9 +39,9 @@ exports.createNew = async (req, res) => {
         message: "ไม่พบข้อมูลสัญญาที่ตรงกับที่ระบุ",
       });
     }
-
+    const generatedContractCode = await generateContractNumber();
     const contractCode = detail1.contract_code;
-    const contract_code = `${contractCode}${req.body.contract_code}`;
+    const contract_code = `${contractCode}${generatedContractCode}`;
 
     const newData = {
       contract_base_id: detail1._id,
@@ -66,15 +66,16 @@ exports.createCode = async (req, res) => {
     const name = req.body.name;
     const detail1 = await HaveplaceNocapital.findOne({ contract_code: name });
 
-      if (!detail1) {
-        return res.status(404).send({
-          status: false,
-          message: "ไม่พบข้อมูลสัญญาที่ตรงกับที่ระบุ",
-        });
-      }
+    if (!detail1) {
+      return res.status(404).send({
+        status: false,
+        message: "ไม่พบข้อมูลสัญญาที่ตรงกับที่ระบุ",
+      });
+    }
 
+    const generatedContractCode = await generateContractNumber();
     const contractCode = detail1.contract_code;
-    const contract_code = `${contractCode}${req.body.contract_code}`;
+    const contract_code = `${contractCode}${generatedContractCode}`;
 
     const newData = {
       contract_base_id: detail1._id,
@@ -100,7 +101,6 @@ exports.createCode = async (req, res) => {
     return res.status(500).send({ status: false, message: err.message });
   }
 };
-
 exports.GetAllContractNew = async (req, res) => {
   try {
     const details = await PartnerHaveplaceNocapital.find();
@@ -172,3 +172,18 @@ exports.EditContractNew = async (req, res) => {
       .send({ status: false, message: "มีบางอย่างผิดพลาด" });
   }
 };
+
+async function generateContractNumber() {
+  const contract = await PartnerHaveplaceNocapital.find();
+  let contract_code = null;
+  if (contract.length !== 0) {
+    let data = "";
+    let num = 0;
+    let check = null;
+    check = await PartnerHaveplaceNocapital.find({});
+    contract_code = `0`.padEnd(5, "0") + (check.length + 1);
+  } else {
+    contract_code = `0`.padEnd(5, "0") + "1";
+  }
+  return contract_code;
+}
