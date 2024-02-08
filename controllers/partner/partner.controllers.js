@@ -46,6 +46,7 @@ exports.create = async (req, res) => {
       partner_company_phone: req.body.partner_company_phone,
       contract_type: req.body.contract_type,
       filecompany: req.body.filecompany,
+      status: "new",
       logo: req.body.logo,
       signature: req.body.signa,
     };

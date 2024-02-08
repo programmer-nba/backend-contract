@@ -51,6 +51,7 @@ const partnerSchema = new mongoose.Schema(
       ],
       default: null,
     },
+    status: { type: String, required: false },
     partner_timestamp: { type: Array, required: false, default: [] },
   },
   { timestamps: true }
