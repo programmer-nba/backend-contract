@@ -29,13 +29,11 @@ exports.create = async (req, res) => {
       ...req.body,
     }).save();
     res.status(201).send({
-      message: "เพิ่มข้อมูล สัญญาสำเร็จ",
+      message: "เพิ่มข้อมูล สัญญา สำเร็จ",
       status: true,
     });
   } catch (err) {
-    return res
-      .status(500)
-      .send({ status: false, message: err.message });
+    return res.status(500).send({ status: false, message: err.message });
   }
 };
 exports.GetAllContract = async (req, res) => {
@@ -107,5 +105,45 @@ exports.EditContract = async (req, res) => {
     return res
       .status(500)
       .send({ status: false, message: "มีบางอย่างผิดพลาด" });
+  }
+};
+exports.deleteContractBase = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const details = await HaveplaceNocapital.findByIdAndDelete(id);
+    if (!details) {
+      return res
+        .status(404)
+        .send({ status: false, message: "ไม่พบข้อมุลสัญญา" });
+    } else {
+      return res
+        .status(200)
+        .send({ status: true, message: "ลบข้อมุลสัญญาสำเร็จ" });
+    }
+  } catch (err) {
+    return res
+      .status(500)
+      .send({ status: false, message: "มีบางอย่างผิดพลาด" });
+  }
+};
+exports.GetAllContractByCode = async (req, res) => {
+  try {
+    const details = await HaveplaceNocapital.find({}, 'contract_name contract_code _id');
+    if (details.length > 0) {
+      return res.status(200).send({
+        status: true,
+        message: "ดึงข้อมูล สัญญา มีที่่ไม่มีทุน สำเร็จ",
+        data: details,
+      });
+    } else {
+      return res
+        .status(404)
+        .send({ message: "ไม่พบข้อมูลสัญญา", status: false });
+    }
+  } catch (error) {
+    res.status(500).send({
+      message: "มีบางอย่างผิดพลาด",
+      status: false,
+    });
   }
 };

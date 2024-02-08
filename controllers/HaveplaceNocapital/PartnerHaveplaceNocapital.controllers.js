@@ -43,13 +43,27 @@ exports.createNew = async (req, res) => {
     const contractCode = detail1.contract_code;
     const contract_code = `${contractCode}${generatedContractCode}`;
 
-    const newData = {
+    let newData = {
       contract_base_id: detail1._id,
       ...detail1.toObject(),
       contract_code: contract_code,
+      partner: {
+        id: req.body.partner_id,
+        name: req.body.partner_name,
+        address: req.body.partner_address,
+        stamp: req.body.partner_stamp,
+        tax_id: req.body.partner_tax_id,
+        tel: req.body.partner_tel,
+        signature: req.body.partner_signature,
+      },
     };
     delete newData._id;
+    const newSubHead = newData.contract_sub_head.replace(
+      "partner_name",
+      req.body.partner_name
+    );
 
+    newData.contract_sub_head = newSubHead;
     const detail = await new PartnerHaveplaceNocapital(newData).save();
 
     res.status(201).send({
@@ -76,7 +90,7 @@ exports.createCode = async (req, res) => {
     const contractCode = detail1.contract_code;
     const contract_code = `${contractCode}${generatedContractCode}`;
 
-    const newData = {
+    let newData = {
       contract_base_id: detail1._id,
       ...detail1.toObject(),
       contract_code: contract_code,
@@ -91,6 +105,13 @@ exports.createCode = async (req, res) => {
       },
     };
     delete newData._id;
+    const newSubHead = newData.contract_sub_head.replace(
+      "partner_name",
+      req.body.partner_name
+    );
+
+    newData.contract_sub_head = newSubHead;
+
     const detail = await new PartnerHaveplaceNocapital(newData).save();
     res.status(201).send({
       message: "เพิ่มข้อมูล สัญญา สำเร็จ",
@@ -171,7 +192,46 @@ exports.EditContractNew = async (req, res) => {
       .send({ status: false, message: "มีบางอย่างผิดพลาด" });
   }
 };
-
+exports.deleteContract = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const details = await PartnerHaveplaceNocapital.findByIdAndDelete(id);
+    if (!details) {
+      return res
+        .status(404)
+        .send({ status: false, message: "ไม่พบข้อมุลสัญญา" });
+    } else {
+      return res
+        .status(200)
+        .send({ status: true, message: "ลบข้อมุลสัญญาสำเร็จ" });
+    }
+  } catch (err) {
+    return res
+      .status(500)
+      .send({ status: false, message: "มีบางอย่างผิดพลาด" });
+  }
+};
+exports.GetAllContractNewByCode = async (req, res) => {
+  try {
+    const details = await PartnerHaveplaceNocapital.find({}, 'contract_name contract_code _id');
+    if (details.length > 0) {
+      return res.status(200).send({
+        status: true,
+        message: "ดึงข้อมูล สัญญา มีที่่ไม่มีทุน สำเร็จ",
+        data: details,
+      });
+    } else {
+      return res
+        .status(404)
+        .send({ message: "ไม่พบข้อมูลสัญญา", status: false });
+    }
+  } catch (error) {
+    res.status(500).send({
+      message: "มีบางอย่างผิดพลาด",
+      status: false,
+    });
+  }
+};
 async function generateContractNumber() {
   const contract = await PartnerHaveplaceNocapital.find();
   let contract_code = null;
