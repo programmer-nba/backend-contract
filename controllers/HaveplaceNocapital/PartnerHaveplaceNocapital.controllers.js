@@ -127,7 +127,7 @@ exports.GetAllContractNew = async (req, res) => {
     if (details.length > 0) {
       return res.status(200).send({
         status: true,
-        message: "ดึงข้อมูล สัญญา มีที่่ไม่มีทุน สำเร็จ",
+        message: "ดึงข้อมูล สัญญา สำเร็จ",
         data: details,
       });
     } else {
@@ -149,7 +149,7 @@ exports.GetContractByIDNew = async (req, res) => {
     if (details) {
       return res.status(200).send({
         status: true,
-        message: "ดึงข้อมูล สัญญา มีที่่ไม่มีทุน สำเร็จ",
+        message: "ดึงข้อมูล สัญญา สำเร็จ",
         data: details,
       });
     } else {
@@ -213,7 +213,10 @@ exports.deleteContract = async (req, res) => {
 };
 exports.GetAllContractNewByCode = async (req, res) => {
   try {
-    const details = await PartnerHaveplaceNocapital.find({}, 'contract_name contract_code _id');
+    const details = await PartnerHaveplaceNocapital.find(
+      {},
+      "contract_name contract_code _id"
+    );
     if (details.length > 0) {
       return res.status(200).send({
         status: true,
@@ -235,7 +238,7 @@ exports.GetAllContractNewByCode = async (req, res) => {
 exports.AddStatus = async (req, res) => {
   try {
     const id = req.params.id;
-    const updateStatus = await PartnerHaveplaceNocapital.findOne({_id: id});
+    const updateStatus = await PartnerHaveplaceNocapital.findOne({ _id: id });
 
     if (updateStatus) {
       updateStatus.status.push({
@@ -255,7 +258,9 @@ exports.AddStatus = async (req, res) => {
       });
     }
   } catch (error) {
-    return res.status(500).send({message: "มีบางอย่างผิดพลาด", status: false});
+    return res
+      .status(500)
+      .send({ message: "มีบางอย่างผิดพลาด", status: false });
   }
 };
 
