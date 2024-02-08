@@ -55,7 +55,7 @@ exports.GetAllContract = async (req, res) => {
     if (details.length > 0) {
       return res.status(200).send({
         status: true,
-        message: "ดึงข้อมูล สัญญา มีที่่ไม่มีทุน สำเร็จ",
+        message: "ดึงข้อมูล สัญญา สำเร็จ",
         data: details,
       });
     } else {
@@ -77,7 +77,7 @@ exports.GetContractByID = async (req, res) => {
     if (details) {
       return res.status(200).send({
         status: true,
-        message: "ดึงข้อมูล สัญญา มีที่่ไม่มีทุน สำเร็จ",
+        message: "ดึงข้อมูล สัญญา สำเร็จ",
         data: details,
       });
     } else {
