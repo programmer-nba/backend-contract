@@ -60,7 +60,6 @@ exports.createNew = async (req, res) => {
     return res.status(500).send({ status: false, message: err.message });
   }
 };
-
 exports.createCode = async (req, res) => {
   try {
     const name = req.body.name;
