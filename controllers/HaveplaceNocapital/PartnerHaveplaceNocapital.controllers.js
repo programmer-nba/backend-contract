@@ -32,42 +32,68 @@ exports.createNew = async (req, res) => {
   try {
     const id = req.params.id;
     const detail1 = await HaveplaceNocapital.findById(id);
+
+    if (!detail1) {
+      return res.status(404).send({
+        status: false,
+        message: "ไม่พบข้อมูลสัญญาที่ตรงกับที่ระบุ",
+      });
+    }
+
+    const contractCode = detail1.contract_code;
+    const contract_code = `${contractCode}${req.body.contract_code}`;
+
     const newData = {
       contract_base_id: detail1._id,
       ...detail1.toObject(),
+      contract_code: contract_code,
     };
     delete newData._id;
+
     const detail = await new PartnerHaveplaceNocapital(newData).save();
+
     res.status(201).send({
-      message: "เพิ่มข้อมูล สัญญามีทุน ไม่มีที่ สำเร็จ",
+      message: "เพิ่มข้อมูล สัญญา สำเร็จ",
       status: true,
     });
   } catch (err) {
     return res.status(500).send({ status: false, message: err.message });
   }
 };
+
 exports.createCode = async (req, res) => {
   try {
     const name = req.body.name;
     const detail1 = await HaveplaceNocapital.findOne({ contract_code: name });
 
+      if (!detail1) {
+        return res.status(404).send({
+          status: false,
+          message: "ไม่พบข้อมูลสัญญาที่ตรงกับที่ระบุ",
+        });
+      }
+
+    const contractCode = detail1.contract_code;
+    const contract_code = `${contractCode}${req.body.contract_code}`;
+
     const newData = {
       contract_base_id: detail1._id,
       ...detail1.toObject(),
+      contract_code: contract_code,
       partner: {
-        id:req.body.partner_id,
+        id: req.body.partner_id,
         name: req.body.partner_name,
-        address:req.body.partner_address,
-        stamp:req.body.partner_stamp ,
-        tax_id:req.body.partner_tax_id ,
-        tel:req.body.partner_tel,
-        signature:req.body.partner_signature,
+        address: req.body.partner_address,
+        stamp: req.body.partner_stamp,
+        tax_id: req.body.partner_tax_id,
+        tel: req.body.partner_tel,
+        signature: req.body.partner_signature,
       },
     };
     delete newData._id;
     const detail = await new PartnerHaveplaceNocapital(newData).save();
     res.status(201).send({
-      message: "เพิ่มข้อมูล สัญญามีทุน ไม่มีที่ สำเร็จ",
+      message: "เพิ่มข้อมูล สัญญา สำเร็จ",
       status: true,
     });
   } catch (err) {

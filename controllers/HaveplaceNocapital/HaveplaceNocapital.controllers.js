@@ -29,7 +29,7 @@ exports.create = async (req, res) => {
       ...req.body,
     }).save();
     res.status(201).send({
-      message: "เพิ่มข้อมูล สัญญามีทุน ไม่มีที่ สำเร็จ",
+      message: "เพิ่มข้อมูล สัญญาสำเร็จ",
       status: true,
     });
   } catch (err) {

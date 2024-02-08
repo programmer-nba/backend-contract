@@ -57,3 +57,21 @@ exports.create = async (req, res) => {
     return res.status(500).send({ status: false, message: err.message });
   }
 };
+exports.deleteAllPartner = async (req, res) => {
+  try {
+    const details = await Partner.deleteMany();
+    if (!details) {
+      return res
+        .status(404)
+        .send({ status: false, message: "ไม่พบข้อมูล" });
+    } else {
+      return res
+        .status(200)
+        .send({ status: true, message: "ลบข้อมูลทั้งหมดสำเร็จ" });
+    }
+  } catch (err) {
+    return res
+      .status(500)
+      .send({ status: false, message: "มีบางอย่างผิดพลาด" });
+  }
+};
