@@ -8,7 +8,7 @@ const mongoose = require("mongoose");
 const ObjectId = mongoose.Types.ObjectId;
 const multer = require("multer");
 const jwt = require("jsonwebtoken");
-const {Partner} = require("../../model/partner/partner.models")
+const { Partner } = require("../../model/partner/partner.models");
 const {
   PartnerHaveplaceNocapital,
   validate,
@@ -84,7 +84,7 @@ exports.createNew = async (req, res) => {
 exports.createCode = async (req, res) => {
   try {
     const name = req.body.name;
-    const orderId = req.body.orderId
+    const orderId = req.body.orderId;
     const detail1 = await HaveplaceNocapital.findOne({ contract_code: name });
 
     if (!detail1) {
@@ -125,7 +125,7 @@ exports.createCode = async (req, res) => {
     newData.contract_sub_head = newSubHead;
 
     const detail = await new PartnerHaveplaceNocapital(newData).save();
-    await Partner.findByIdAndUpdate(orderId,{$set:{status:'done'}})
+    await Partner.findByIdAndUpdate(orderId, { $set: { status: "done" } });
     res.status(201).send({
       message: "เพิ่มข้อมูล สัญญา สำเร็จ",
       status: true,
@@ -255,7 +255,7 @@ exports.AddStatus = async (req, res) => {
 
     if (updateStatus) {
       updateStatus.status.push({
-        name: "",
+        name: req.body.name,
         timestamps: dayjs(Date.now()).format(""),
       });
       updateStatus.save();
