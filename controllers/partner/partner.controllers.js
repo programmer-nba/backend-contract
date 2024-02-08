@@ -75,3 +75,24 @@ exports.deleteAllPartner = async (req, res) => {
       .send({ status: false, message: "มีบางอย่างผิดพลาด" });
   }
 };
+exports.GetAllPartner = async (req, res) => {
+  try {
+    const details = await Partner.find();
+    if (details.length > 0) {
+      return res.status(200).send({
+        status: true,
+        message: "ดึงข้อมูลสำเร็จ",
+        data: details,
+      });
+    } else {
+      return res
+        .status(404)
+        .send({ message: "ไม่พบข้ออมูล", status: false });
+    }
+  } catch (error) {
+    res.status(500).send({
+      message: "มีบางอย่างผิดพลาด",
+      status: false,
+    });
+  }
+};
