@@ -235,6 +235,34 @@ exports.GetAllContractNewByCode = async (req, res) => {
     });
   }
 };
+exports.AddStatus = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const updateStatus = await PartnerHaveplaceNocapital.findOne({ _id: id });
+
+    if (updateStatus) {
+      updateStatus.status.push({
+        name: "",
+        timestamps: dayjs(Date.now()).format(""),
+      });
+      updateStatus.save();
+      return res.status(200).send({
+        status: true,
+        message: "เพิ่มสถาณะสำเร็จ",
+        data: updateStatus,
+      });
+    } else {
+      return res.status(500).send({
+        message: "มีบางอย่างผิดพลาด",
+        status: false,
+      });
+    }
+  } catch (error) {
+    return res
+      .status(500)
+      .send({ message: "มีบางอย่างผิดพลาด", status: false });
+  }
+};
 
 async function generateContractNumber() {
   const contract = await PartnerHaveplaceNocapital.find();
