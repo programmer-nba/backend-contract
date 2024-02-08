@@ -25,9 +25,22 @@ const { admin } = require("googleapis/build/src/apis/admin");
 
 exports.create = async (req, res) => {
   try {
+    const name = req.body.contract_code;
+    const ChackContract = await HaveplaceNocapital.findOne({
+      contract_code: name,
+    });
+
+    if (ChackContract) {
+      return res.status(400).send({
+        message: "รหัสสัญญานี้มีอยู่ในระบบแล้ว",
+        status: false,
+      });
+    }
+
     await new HaveplaceNocapital({
       ...req.body,
     }).save();
+
     res.status(201).send({
       message: "เพิ่มข้อมูล สัญญา สำเร็จ",
       status: true,
@@ -128,7 +141,10 @@ exports.deleteContractBase = async (req, res) => {
 };
 exports.GetAllContractByCode = async (req, res) => {
   try {
-    const details = await HaveplaceNocapital.find({}, 'contract_name contract_code _id');
+    const details = await HaveplaceNocapital.find(
+      {},
+      "contract_name contract_code _id"
+    );
     if (details.length > 0) {
       return res.status(200).send({
         status: true,
