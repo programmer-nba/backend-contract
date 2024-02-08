@@ -39,6 +39,11 @@ exports.createNew = async (req, res) => {
         message: "ไม่พบข้อมูลสัญญาที่ตรงกับที่ระบุ",
       });
     }
+    const status = {
+      name: "รอลงนาม",
+      timestamps: dayjs(Date.now()).format(""),
+    };
+
     const generatedContractCode = await generateContractNumber();
     const contractCode = detail1.contract_code;
     const contract_code = `${contractCode}${generatedContractCode}`;
@@ -47,6 +52,7 @@ exports.createNew = async (req, res) => {
       contract_base_id: detail1._id,
       ...detail1.toObject(),
       contract_code: contract_code,
+      status: status,
       partner: {
         id: req.body.partner_id,
         name: req.body.partner_name,
@@ -85,7 +91,10 @@ exports.createCode = async (req, res) => {
         message: "ไม่พบข้อมูลสัญญาที่ตรงกับที่ระบุ",
       });
     }
-
+    const status = {
+      name: "รอลงนาม",
+      timestamps: dayjs(Date.now()).format(""),
+    };
     const generatedContractCode = await generateContractNumber();
     const contractCode = detail1.contract_code;
     const contract_code = `${contractCode}${generatedContractCode}`;
@@ -94,6 +103,7 @@ exports.createCode = async (req, res) => {
       contract_base_id: detail1._id,
       ...detail1.toObject(),
       contract_code: contract_code,
+      status: status,
       partner: {
         id: req.body.partner_id,
         name: req.body.partner_name,
