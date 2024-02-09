@@ -114,20 +114,23 @@ exports.createCode = async (req, res) => {
         tax_id: req.body.partner_tax_id,
         tel: req.body.partner_tel,
         signature: req.body.partner_signature,
+        date: req.body.start_date,
       },
     };
     delete newData._id;
-    const newSubHead = newData.contract_sub_head.replace(
+    newData.contract_sub_head = newData.contract_sub_head.replace(
       "partner_name",
       req.body.partner_name
     );
-
-    newData.contract_sub_head = newSubHead;
-
+    newData.contract_sub_head = newData.contract_sub_head.replace(
+      "date",
+      req.body.start_date
+    );
     const detail = await new PartnerHaveplaceNocapital(newData).save();
     await Partner.findByIdAndUpdate(orderId, { $set: { status: "done" } });
     res.status(201).send({
       message: "เพิ่มข้อมูล สัญญา สำเร็จ",
+      data: detail,
       status: true,
     });
   } catch (err) {

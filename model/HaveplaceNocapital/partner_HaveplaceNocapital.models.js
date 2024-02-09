@@ -21,6 +21,7 @@ const PartnerHaveplaceNocapitalSchema = new mongoose.Schema({
     stamp: { type: String, required: false },
     tax_id: { type: String, required: false },
     tel: { type: String, required: false },
+    date: { type: Date, required: false, default: Date.now() },
     signature: [
       {
         name: { type: String, required: false },
