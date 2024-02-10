@@ -15,16 +15,16 @@ app.use(cors());
 
 const prefix = "/contract";
 
-// สัญญา มีที่ไม่มีทุน
+app.use(prefix + "/", require("./routes/index"));
+
+// สร้างใบสัญญา
 app.use(prefix + "/HaveplaceNocapital", require("./routes/contract2/index"));
 
 // รับข้อมูลจาก partner
-app.use(prefix + "/partner", require("./routes/partner/index")); 
+app.use(prefix + "/partner", require("./routes/partner/index"));
 
-//test-sample
-app.get("/", (req, res) => {
-  res.send({ data: "hello world test   sdsdsadda 115zzz6\n5s5s5s5s5s5" });
-});
+//user ทนายความ
+app.use(prefix + "/lawyer", require("./routes/lawyer/index"));
 
 // //eContract
 app.use(prefix + "/WriteProgram", require("./routes/doc_a"));
