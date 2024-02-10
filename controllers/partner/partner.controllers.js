@@ -1,8 +1,8 @@
 const bcrypt = require("bcrypt");
 const dayjs = require("dayjs");
 const Joi = require("joi");
-const {google} = require("googleapis");
-const {default: axios} = require("axios");
+const { google } = require("googleapis");
+const { default: axios } = require("axios");
 const req = require("express/lib/request.js");
 const multer = require("multer");
 const jwt = require("jsonwebtoken");
@@ -10,7 +10,7 @@ const {
   HaveplaceNocapital,
   validate,
 } = require("../../model/HaveplaceNocapital/HaveplaceNocapital.models");
-const {Partner} = require("../../model/partner/partner.models");
+const { Partner } = require("../../model/partner/partner.models");
 const storage = multer.diskStorage({
   filename: function (req, file, cb) {
     cb(null, Date.now() + "-" + file.originalname);
@@ -24,7 +24,7 @@ const {
   uploadFileCreate,
   deleteFile,
 } = require("../../funtions/uploadfilecreate");
-const {admin} = require("googleapis/build/src/apis/admin");
+const { admin } = require("googleapis/build/src/apis/admin");
 
 exports.create = async (req, res) => {
   try {
@@ -59,21 +59,23 @@ exports.create = async (req, res) => {
       status: true,
     });
   } catch (err) {
-    return res.status(500).send({status: false, message: err.message});
+    return res.status(500).send({ status: false, message: err.message });
   }
 };
 exports.deleteAllPartner = async (req, res) => {
   try {
     const details = await Partner.deleteMany();
     if (!details) {
-      return res.status(404).send({status: false, message: "ไม่พบข้อมูล"});
+      return res.status(404).send({ status: false, message: "ไม่พบข้อมูล" });
     } else {
       return res
         .status(200)
-        .send({status: true, message: "ลบข้อมูลทั้งหมดสำเร็จ"});
+        .send({ status: true, message: "ลบข้อมูลทั้งหมดสำเร็จ" });
     }
   } catch (err) {
-    return res.status(500).send({status: false, message: "มีบางอย่างผิดพลาด"});
+    return res
+      .status(500)
+      .send({ status: false, message: "มีบางอย่างผิดพลาด" });
   }
 };
 exports.GetAllPartner = async (req, res) => {
@@ -86,7 +88,7 @@ exports.GetAllPartner = async (req, res) => {
         data: details,
       });
     } else {
-      return res.status(404).send({message: "ไม่พบข้ออมูล", status: false});
+      return res.status(404).send({ message: "ไม่พบข้ออมูล", status: false });
     }
   } catch (error) {
     res.status(500).send({
@@ -98,7 +100,7 @@ exports.GetAllPartner = async (req, res) => {
 exports.AddStatus = async (req, res) => {
   try {
     const id = req.params.id;
-    const updateStatus = await Partner.findOne({_id: id});
+    const updateStatus = await Partner.findOne({ _id: id });
     if (updateStatus) {
       updateStatus.status_appover = "";
       updateStatus.save();
@@ -115,7 +117,7 @@ exports.AddStatus = async (req, res) => {
       });
     }
   } catch (error) {
-    return res.status(500).send({message: error.message, status: false});
+    return res.status(500).send({ message: error.message, status: false });
   }
 };
 
@@ -128,11 +130,11 @@ exports.GetByPartnerId = async (req, res) => {
     if (!contracts)
       return res
         .status(403)
-        .send({status: false, message: "ดึงข้อมูลไม่สำเร็จ"});
+        .send({ status: false, message: "ดึงข้อมูลไม่สำเร็จ" });
     return res
       .status(200)
-      .send({status: true, message: "ดึงข้อมูลสำเร็จ", data: contract});
+      .send({ status: true, message: "ดึงข้อมูลสำเร็จ", data: contract });
   } catch (error) {
-    return res.status(500).send({message: error.message, status: false});
+    return res.status(500).send({ message: error.message, status: false });
   }
 };
