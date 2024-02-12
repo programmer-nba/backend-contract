@@ -1,7 +1,7 @@
 const bcrypt = require("bcrypt");
 const dayjs = require("dayjs");
 const Joi = require("joi");
-const { google } = require("googleapis");;
+const { google } = require("googleapis");
 const { default: axios } = require("axios");
 const { Lawyer, validateLawyer } = require("../../model/lawyer/lawyer.models");
 const req = require("express/lib/request.js");
@@ -73,6 +73,26 @@ exports.create = async (req, res) => {
     });
   } catch (error) {
     return res.status(500).send({ status: false, error: error.message });
+  }
+};
+
+//สร้างtoken
+exports.genPublicToken = async (req, res) => {
+  try {
+    const token = jwt.sign(
+      { code: "contract", name: "contract", key: "contract" },
+      process.env.TOKEN_KEY
+    );
+    if (token) {
+      return res.status(200).send({ status: true, token: token });
+    } else {
+      return res
+        .status(400)
+        .send({ status: false, message: "สร้าง Token ไม่สำเร็จ" });
+    }
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send({ message: err.message });
   }
 };
 

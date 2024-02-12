@@ -26,6 +26,8 @@ app.use(prefix + "/partner", require("./routes/partner/index"));
 //user ทนายความ
 app.use(prefix + "/lawyer", require("./routes/lawyer/index"));
 
+//สัญญา api
+app.use(prefix + "/contract-All", require("./routes/contractAll/index"));
 // //eContract
 app.use(prefix + "/WriteProgram", require("./routes/doc_a"));
 
