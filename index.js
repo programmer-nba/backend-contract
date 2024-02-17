@@ -31,7 +31,7 @@ app.use(prefix + "/contract-All", require("./routes/contractAll/index"));
 // //eContract
 app.use(prefix + "/WriteProgram", require("./routes/doc_a"));
 
-const port = process.env.PORT || 9987;
+const port = process.env.PORT || 9997;
 app.listen(port, () => {
   console.log(`\n--- test-eContract --- \nListening on port ${port}\n`);
 });
