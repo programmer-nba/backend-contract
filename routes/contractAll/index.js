@@ -36,14 +36,26 @@ router.get(
 );
 
 //สร้างอีกใบสัญญา
-router.post("/createNew/:id", authContractAll, PartnerHaveplaceNocapital.createNew); //สร้างแบบ BY ID
-router.post("/createCode", authContractAll, PartnerHaveplaceNocapital.createCode);
+router.post(
+  "/createNew/:id",
+  authContractAll,
+  PartnerHaveplaceNocapital.createNew
+); //สร้างแบบ BY ID
+router.post(
+  "/createCode",
+  authContractAll,
+  PartnerHaveplaceNocapital.createCode
+);
 router.put(
   "/EditContractNew/:id",
   authContractAll,
   PartnerHaveplaceNocapital.EditContractNew
 );
-router.put("/AddStatus/:id", authContractAll, PartnerHaveplaceNocapital.AddStatus); //เพิ่มสถาณะ
+router.put(
+  "/AddStatus/:id",
+  authContractAll,
+  PartnerHaveplaceNocapital.AddStatus
+); //เพิ่มสถาณะ
 router.delete(
   "/deleteContract/:id",
   authContractAll,
