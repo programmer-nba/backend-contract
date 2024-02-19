@@ -76,6 +76,7 @@ exports.createNew = async (req, res) => {
     res.status(201).send({
       message: "เพิ่มข้อมูล สัญญา สำเร็จ",
       status: true,
+      data: detail
     });
   } catch (err) {
     return res.status(500).send({ status: false, message: err.message });

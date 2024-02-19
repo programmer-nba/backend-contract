@@ -17,6 +17,9 @@ const prefix = "/contract";
 
 app.use(prefix + "/", require("./routes/index"));
 
+// สร้างสัญญาพื้นฐาน (BASE)
+app.use(prefix + "/base-contract", require("./routes/BaseContract/index"));
+
 // สร้างใบสัญญา
 app.use(prefix + "/HaveplaceNocapital", require("./routes/contract2/index"));
 
