@@ -18,12 +18,14 @@ const partnerContractSchema = new Schema({
             {
                 name: String,
                 role: String,
-                img: String,
+                img_id: String,
+                img_64: String
             }
         ],
         stamp: String,
         logo: String
     },
+    partner_main_name: String,
     partner: {
         _id: String,
         code: String,
@@ -40,7 +42,8 @@ const partnerContractSchema = new Schema({
             {
                 name: String,
                 role: String,
-                img: String,
+                img_id: String,
+                img_64: String
             }
         ],
         stamp: String,
@@ -57,7 +60,10 @@ const partnerContractSchema = new Schema({
         footer: String
     },
     file_pdf: String,
-    start_date: Date,
+    start_date: {
+        type: Date,
+        default: new Date()
+    },
     end_date: Date,
     status: [
         {

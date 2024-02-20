@@ -4,6 +4,7 @@ const BaseContract = require('../../model/BaseContract/base_contract_model.js')
 exports.createPartnerContract = async (req, res) => {
     const {
         code,
+        partner_main_name,
         start_date,
         end_date,
         partner_id,
@@ -35,20 +36,22 @@ exports.createPartnerContract = async (req, res) => {
         }
 
         const contract_code = baseContract ? `${baseContract.code}-${baseContracts.length}` : null
-
-        const formatText_body = baseContract.detail_text.body
+        
+        /* const formatText_body = baseContract.detail_text ? baseContract.detail_text.body
         .replace('นาย/นาง/นางสาว', partner_prefix)
         .replace('partner_name', partner_full_name)
+        : null */
 
         const formatHtml_body = baseContract.detail_html.body
         .replace('นาย/นาง/นางสาว', partner_prefix)
-        .replace('partner_name', partner_full_name)
+        .replace('partner_main_name', partner_main_name)
+        .replace('partner_tax_id', partner_tax_id)
         
-        const format_detail_text = {
+       /*  const format_detail_text = {
             head: baseContract.detail_text.head,
             body: formatText_body,
             footer: baseContract.detail_text.footer
-        }
+        } */
 
         const format_detail_html = {
             head: baseContract.detail_html.head,
@@ -62,6 +65,7 @@ exports.createPartnerContract = async (req, res) => {
             title: baseContract.title,
             sub_title: baseContract.sub_title,
             company: baseContract.company,
+            partner_main_name: partner_main_name,
             partner: {
                 _id: partner_id,
                 code: partner_code,
@@ -78,7 +82,7 @@ exports.createPartnerContract = async (req, res) => {
                 stamp: partner_stamp,
                 logo: partner_logo
             },
-            detail_text: format_detail_text,
+            //detail_text: format_detail_text,
             detail_html: format_detail_html,
             file_pdf: null,
             start_date: start_date ? start_date : new Date(),
@@ -113,6 +117,52 @@ exports.createPartnerContract = async (req, res) => {
             message: err.message,
             status: false,
             data : null
+        })
+    }
+}
+
+exports.getPartnerContracts = async ( req, res ) => {
+    try {
+        const partnerContracts = await PartnerContract.find()
+        return res.send({
+            message: `มีสัญญา ${partnerContracts.length} ฉบับ`,
+            status: true,
+            data: partnerContracts
+        })
+    }
+    catch(err) {
+        console.log(err)
+        return res.send({
+            message: err.message,
+            status: false,
+            data: null
+        })
+    }
+}
+
+exports.getPartnerContractByCode = async ( req, res ) => {
+    const { code } = req.body
+    try {
+        const partnerContract = await PartnerContract.findOne({ code: code })
+        if(!partnerContract){
+            return res.send({
+                message: 'partner contract not founded',
+                status: false,
+                data: null
+            })
+        }
+        return res.send({
+            message: `sucess!`,
+            status: true,
+            data: partnerContract
+        })
+    }
+    catch(err) {
+        console.log(err)
+        return res.send({
+            message: err.message,
+            status: false,
+            data: null
         })
     }
 }

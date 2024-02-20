@@ -20,6 +20,9 @@ app.use(prefix + "/", require("./routes/index"));
 // สร้างสัญญาพื้นฐาน (BASE)
 app.use(prefix + "/base-contract", require("./routes/BaseContract/index"));
 
+// สร้างสัญญา partner
+app.use(prefix + "/partner-contract", require("./routes/PartnerContract/index"));
+
 // สร้างใบสัญญา
 app.use(prefix + "/HaveplaceNocapital", require("./routes/contract2/index"));
 
