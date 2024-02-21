@@ -141,9 +141,9 @@ exports.getPartnerContracts = async ( req, res ) => {
 }
 
 exports.getPartnerContractByCode = async ( req, res ) => {
-    const { code } = req.body
+    const { contract_code } = req.body
     try {
-        const partnerContract = await PartnerContract.findOne({ code: code })
+        const partnerContract = await PartnerContract.findOne({ contract_code: contract_code })
         if(!partnerContract){
             return res.send({
                 message: 'partner contract not founded',
@@ -163,6 +163,186 @@ exports.getPartnerContractByCode = async ( req, res ) => {
             message: err.message,
             status: false,
             data: null
+        })
+    }
+}
+
+exports.getPartnerContractById = async ( req, res ) => {
+    const { id } = req.params
+    try {
+        const partnerContract = await PartnerContract.findById( id )
+        if(!partnerContract){
+            return res.send({
+                message: 'partner contract not founded',
+                status: false,
+                data: null
+            })
+        }
+        return res.send({
+            message: `sucess!`,
+            status: true,
+            data: partnerContract
+        })
+    }
+    catch(err) {
+        console.log(err)
+        return res.send({
+            message: err.message,
+            status: false,
+            data: null
+        })
+    }
+}
+
+exports.deletePartnerContract = async ( req, res ) => {
+    const { id } = req.params
+    try {
+        const partnerContract = await PartnerContract.findByIdAndDelete( id )
+        if(!partnerContract){
+            return res.send({
+                message: 'partner contract not founded',
+                status: false,
+                data: null
+            })
+        }
+        return res.send({
+            message: `sucess!`,
+            status: true,
+            data: null
+        })
+    }
+    catch(err) {
+        console.log(err)
+        return res.send({
+            message: err.message,
+            status: false,
+            data: null
+        })
+    }
+}
+
+exports.editPartnerContract = async (req, res) => {
+    const { id } = req.params
+    const body = req.body
+    try {
+        const partnerContract = await PartnerContract.findByIdAndUpdate(id,{
+            $set: {
+                ...body,
+                start_date: body.start_date ?  body.start_date : new Date()
+            }
+        }, { new : true })
+        if(!partnerContract){
+            return res.send({
+                message: 'can not edit partner contract!',
+                status: false,
+                data : null
+            })
+        }
+
+        return res.send({
+            message: 'success edit partner contract',
+            status: true,
+            data: partnerContract
+        })
+        
+    }
+    catch ( err ) {
+        console.log( err )
+        return res.send({
+            message: err.message,
+            status: false,
+            data : null
+        })
+    }
+}
+
+exports.paidPartnerContract = async (req, res) => {
+    const { id } = req.params
+    const { slip } = req.body
+    console.log(slip)
+    try {
+        const partnerContract = await PartnerContract.findByIdAndUpdate(id,{
+            $set: {
+                'payment.paid_slip': slip,
+                'payment.bank_owner_name': String,
+                bank_number: String,
+                bank_type: String,
+                bank_branch: String,
+                amount: Number,
+                transfer_by: String,
+                paidAt: Date
+            },
+            $push: {
+                status: {
+                    name: 'paid',
+                    text: 'ชำระเงินแล้ว',
+                    createdAt: new Date()
+                }
+            }
+        }, { new : true })
+        if(!partnerContract){
+            return res.send({
+                message: 'can not sign partner contract!',
+                status: false,
+                data : null
+            })
+        }
+
+        return res.send({
+            message: 'success sign partner contract',
+            status: true,
+            data: partnerContract
+        })
+        
+    }
+    catch ( err ) {
+        console.log( err )
+        return res.send({
+            message: err.message,
+            status: false,
+            data : null
+        })
+    }
+}
+
+exports.signPartnerContract = async (req, res) => {
+    const { id } = req.params
+    const { partner_signature } = req.body
+    console.log(partner_signature)
+    try {
+        const partnerContract = await PartnerContract.findByIdAndUpdate(id,{
+            $set: {
+                'partner.signature' : partner_signature,
+            },
+            $push: {
+                status: {
+                    name: 'signed',
+                    text: 'ลงนามแล้ว',
+                    createdAt: new Date()
+                }
+            }
+        }, { new : true })
+        if(!partnerContract){
+            return res.send({
+                message: 'can not sign partner contract!',
+                status: false,
+                data : null
+            })
+        }
+
+        return res.send({
+            message: 'success sign partner contract',
+            status: true,
+            data: partnerContract
+        })
+        
+    }
+    catch ( err ) {
+        console.log( err )
+        return res.send({
+            message: err.message,
+            status: false,
+            data : null
         })
     }
 }

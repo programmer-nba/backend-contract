@@ -71,7 +71,17 @@ const partnerContractSchema = new Schema({
             text: String,
             createdAt: Date
         }
-    ]
+    ],
+    payment: {
+        paid_slip: String,
+        bank_owner_name: String,
+        bank_number: String,
+        bank_type: String,
+        bank_branch: String,
+        amount: Number,
+        transfer_by: String,
+        paidAt: Date
+    }
     
 }, { timestamps: true })
 

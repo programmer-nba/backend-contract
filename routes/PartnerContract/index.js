@@ -4,8 +4,12 @@ const authLawyer = require("../../lib/auth-lawyer")
 
 router.post('/create', PartnerContract.createPartnerContract)
 router.post('/code', PartnerContract.getPartnerContractByCode)
+router.get('/:id', PartnerContract.getPartnerContractById)
+router.delete('/:id', PartnerContract.deletePartnerContract)
+router.put('/edit/:id', PartnerContract.editPartnerContract)
 router.get('/all', PartnerContract.getPartnerContracts)
-//router.put('/:id', authLawyer, PartnerContract.editBaseContract)
+router.put('/sign/:id', PartnerContract.signPartnerContract)
+router.put('/paid/:id', PartnerContract.paidPartnerContract)
 //router.delete('/:id', authLawyer, PartnerContract.deleteBaseContract)
 //router.get('/codes', PartnerContract.getBaseContractCodes)
 
