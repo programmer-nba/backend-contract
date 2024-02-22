@@ -25,6 +25,7 @@ exports.createPartnerContract = async (req, res) => {
 
     try {
         const baseContracts = await BaseContract.find()
+        const partnerContracts = await PartnerContract.find()
         const baseContract = baseContracts.find(contract=>contract.code===code)
         if( baseContracts.length < 1 || !baseContract ) {
             return res.send({
@@ -35,7 +36,7 @@ exports.createPartnerContract = async (req, res) => {
             })
         }
 
-        const contract_code = baseContract ? `${baseContract.code}-${baseContracts.length}` : null
+        const contract_code = baseContract ? `${baseContract.code}-${partnerContracts.length}` : null
         
         /* const formatText_body = baseContract.detail_text ? baseContract.detail_text.body
         .replace('นาย/นาง/นางสาว', partner_prefix)
@@ -155,6 +156,35 @@ exports.getPartnerContractByCode = async ( req, res ) => {
             message: `sucess!`,
             status: true,
             data: partnerContract
+        })
+    }
+    catch(err) {
+        console.log(err)
+        return res.send({
+            message: err.message,
+            status: false,
+            data: null
+        })
+    }
+}
+
+exports.getPartnerContractsByPartnerIdOrCode = async ( req, res ) => {
+    const { partner_id, partner_code } = req.body
+    try {
+        const partnerIdContracts = partner_id && partner_id!=='' ? await PartnerContract.find({ 'partner._id' : partner_id }) : null
+        const partnerCodeContracts = partner_code && partner_code!=='' ? await PartnerContract.find({ 'partner.code' : partner_code }) : null
+        
+        if(!partnerIdContracts && !partnerCodeContracts){
+            return res.send({
+                message: 'partner contracts not found',
+                status: false,
+                data: null
+            })
+        }
+        return res.send({
+            message: `success!`,
+            status: true,
+            data: partnerIdContracts ? partnerIdContracts : partnerCodeContracts
         })
     }
     catch(err) {
