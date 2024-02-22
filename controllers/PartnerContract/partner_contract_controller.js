@@ -88,7 +88,11 @@ exports.createPartnerContract = async (req, res) => {
             file_pdf: null,
             start_date: start_date ? start_date : new Date(),
             end_date: end_date ? end_date : null,
-            status: {
+            status: baseContract.type === 'ddsc' ? {
+                name: 'pending',
+                text: 'รอยืนยัน',
+                createdAt: new Date()
+            } : {
                 name: 'new',
                 text: 'รอลงนาม',
                 createdAt: new Date()
@@ -259,6 +263,13 @@ exports.editPartnerContract = async (req, res) => {
             $set: {
                 ...body,
                 start_date: body.start_date ?  body.start_date : new Date()
+            },
+            $push: {
+                status: {
+                    name: "new",
+                    text: "รอลงนาม",
+                    createdAt: new Date()
+                }
             }
         }, { new : true })
         if(!partnerContract){
