@@ -8,5 +8,6 @@ router.get('/all', authLawyer, BaseContract.getBaseContracts)
 router.put('/:id', authLawyer, BaseContract.editBaseContract)
 router.delete('/:id', authLawyer, BaseContract.deleteBaseContract)
 router.get('/codes', BaseContract.getBaseContractCodes)
+router.get('/:id', BaseContract.getBaseContractById)
 
 module.exports = router

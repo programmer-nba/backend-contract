@@ -176,6 +176,33 @@ exports.getBaseContractByCode = async (req, res) => {
     }
 }
 
+exports.getBaseContractById = async (req, res) => {
+    const { id } = req.params
+    try {
+        const baseContract = await BaseContract.findById(id)
+        if(!baseContract){
+            return res.send({
+                message: 'not found contract!',
+                status: false,
+                data : null
+            })
+        }
+
+        return res.send({
+            message: `contract founded`,
+            status: true,
+            data: baseContract
+        })
+    }
+    catch ( err ) {
+        console.log(err)
+        return response.send({
+            message: err.message,
+            status: false
+        })
+    }
+}
+
 exports.deleteBaseContract = async (req, res) => {
     const { id } = req.params
     try {
