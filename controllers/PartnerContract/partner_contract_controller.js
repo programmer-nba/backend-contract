@@ -88,11 +88,18 @@ exports.createPartnerContract = async (req, res) => {
             file_pdf: null,
             start_date: start_date ? start_date : new Date(),
             end_date: end_date ? end_date : null,
-            status: baseContract.type === 'ddsc' ? {
+            status: 
+            baseContract.type === 'ddsc' ? {
                 name: 'pending',
                 text: 'รอยืนยัน',
                 createdAt: new Date()
-            } : {
+            } 
+            :  baseContract.type === 'pdpa' ? {
+                name: 'accepted',
+                text: 'ยินยอมสัญญาแล้ว',
+                createdAt: new Date()
+            }
+            : {
                 name: 'new',
                 text: 'รอลงนาม',
                 createdAt: new Date()
