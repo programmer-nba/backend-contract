@@ -81,6 +81,7 @@ const partnerContractSchema = new Schema({
         bank_type: String,
         bank_branch: String,
         paid_amount: Number,
+        bank_img: String,
         transfer_by: String,
         paidAt: Date
     }

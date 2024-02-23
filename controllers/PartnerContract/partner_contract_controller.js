@@ -267,6 +267,7 @@ exports.editPartnerContract = async (req, res) => {
                 'payment.bank_number': body.bank_number,
                 'payment.bank_type': body.bank_type,
                 'payment.bank_branch': body.bank_branch, 
+                'payment.bank_img': body.bank_img, 
                 'payment.deposit_amount' : body.deposit_amount,
                 all_price: body.all_price
             },
