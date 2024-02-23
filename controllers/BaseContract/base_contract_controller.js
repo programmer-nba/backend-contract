@@ -14,7 +14,7 @@ exports.createBaseContract = async (req, res) => {
         company_stamp,
         company_logo,
         detail_text, // Object
-        detail_html // Object
+        detail_html, // Object
     } = req.body
 
     const data = {

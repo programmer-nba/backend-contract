@@ -262,7 +262,13 @@ exports.editPartnerContract = async (req, res) => {
         const partnerContract = await PartnerContract.findByIdAndUpdate(id,{
             $set: {
                 ...body,
-                start_date: body.start_date ?  body.start_date : new Date()
+                start_date: body.start_date ?  body.start_date : new Date(),
+                'payment.bank_owner_name': body.bank_owner_name,
+                'payment.bank_number': body.bank_number,
+                'payment.bank_type': body.bank_type,
+                'payment.bank_branch': body.bank_branch, 
+                'payment.deposit_amount' : body.deposit_amount,
+                all_price: body.all_price
             },
             $push: {
                 status: {
@@ -299,19 +305,15 @@ exports.editPartnerContract = async (req, res) => {
 
 exports.paidPartnerContract = async (req, res) => {
     const { id } = req.params
-    const { slip } = req.body
+    const { slip, paid_amount, transfer_by, paidAt   } = req.body
     console.log(slip)
     try {
         const partnerContract = await PartnerContract.findByIdAndUpdate(id,{
             $set: {
                 'payment.paid_slip': slip,
-                'payment.bank_owner_name': String,
-                bank_number: String,
-                bank_type: String,
-                bank_branch: String,
-                amount: Number,
-                transfer_by: String,
-                paidAt: Date
+                'payment.paid_amount': paid_amount,
+                'payment.transfer_by': transfer_by,
+                'payment.paidAt': paidAt || new Date()
             },
             $push: {
                 status: {

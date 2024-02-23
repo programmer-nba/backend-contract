@@ -22,7 +22,7 @@ const baseContractSchema = new Schema({
             }
         ],
         stamp: String,
-        logo: String
+        logo: String,
     },
     detail_text: {
         head: String,
