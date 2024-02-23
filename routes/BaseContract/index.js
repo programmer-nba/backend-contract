@@ -3,7 +3,7 @@ const BaseContract = require('../../controllers/BaseContract/base_contract_contr
 const authLawyer = require("../../lib/auth-lawyer")
 
 router.post('/create', authLawyer, BaseContract.createBaseContract)
-router.post('/code', authLawyer, BaseContract.getBaseContractByCode)
+router.post('/code', BaseContract.getBaseContractByCode)
 router.get('/all', authLawyer, BaseContract.getBaseContracts)
 router.put('/:id', authLawyer, BaseContract.editBaseContract)
 router.delete('/:id', authLawyer, BaseContract.deleteBaseContract)
