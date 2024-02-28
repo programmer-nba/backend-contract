@@ -17,8 +17,9 @@ const baseContractSchema = new Schema({
             {
                 name: String,
                 role: String,
-                img_id: String,
-                img_64: String
+                sign: String,
+                img_64: String,
+                position: String
             }
         ],
         stamp: String,
