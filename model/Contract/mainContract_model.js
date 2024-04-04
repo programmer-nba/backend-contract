@@ -9,7 +9,6 @@ const mainContractSchema = new Schema(
         code: String, // รหัสสัญญา รันตาม ref_code จาก standard-contract + รหัสลูกค้า หรือ เลขภายใน
         start_date: Date, // วันที่สร้างสัญญา (ตาม input)
         due_date: Date, // วันที่สิ้นสุดสัญญา (ตาม input)
-        duration: Number, // ระยะเวลาสัญญา (คำนวณอัตโนมัติ คิดเป็นวัน due_date - start_date ถ้าไม่มี due_date ให้เป็น null)
         detail: [ // รายละเอียดสัญญา อาจมีได้หลายข้อ
             {
                 header: String, // หัวข้อข้อความ (ถ้ามี)

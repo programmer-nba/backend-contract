@@ -25,7 +25,7 @@ exports.createCreator = async (req, res, next) => {
 
     try {
         const creator = await Creator.find()
-        const codeNumber = code ? code+'0'+creator.length+1 : 'CR'+'0'+creator.length+1
+        const codeNumber = code ? code+'-'+creator.length+1 : 'CR'+'-'+creator.length+1
         const new_creator = new Creator(
             {
                 name: name, // ชื่อเต็มบริษัท หรือ ถ้าเป็นบุคคล ต้องมีคำนำหน้า
@@ -98,9 +98,9 @@ exports.updateCreator = async (req, res, next) => {
                 data: null
             })
         }
-
+        const codeParts = creator.code.split('-')
         creator.name = name || creator.name
-        creator.code = code || creator.code
+        creator.code = code ? code+'-'+codeParts[codeParts.length-1] : creator.code
         creator.tax_id = tax_id || creator.tax_id
         creator.stamp_img = stamp_img || creator.stamp_img
         creator.logo_img = logo_img || creator.logo_img
@@ -163,8 +163,8 @@ exports.updateCreator = async (req, res, next) => {
             message: 'แก้ไขผู้สร้างสัญญา สำเร็จ!',
             status: true,
             data: saved_creator,
-            standardContracts: updated_standardContracts ? {...updated_standardContracts} : updated_standardContracts,
-            mainContracts: updated_mainContracts ? {...updated_mainContracts} : updated_mainContracts
+            standardContracts: updated_standardContracts,
+            mainContracts: updated_mainContracts
         })
     }
     catch (error) {

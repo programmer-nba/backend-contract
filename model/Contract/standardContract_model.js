@@ -8,7 +8,6 @@ const standardContractSchema = new Schema(
         ref_code: String, // รหัสสัญญา (ห้ามซ้ำ)
         start_date: Date, // วันที่สร้างสัญญา (ตาม input)
         due_date: Date, // วันที่สิ้นสุดสัญญา (ตาม input)
-        duration: Number, // ระยะเวลาสัญญา (คำนวณอัตโนมัติ คิดเป็นวัน due_date - start_date ถ้าไม่มี due_date ให้เป็น null)
         detail: [ // รายละเอียดสัญญา อาจมีได้หลายข้อ
             {
                 header: String, // หัวข้อข้อความ (ถ้ามี)
@@ -37,6 +36,7 @@ const standardContractSchema = new Schema(
                 {
                     name: String, // ชื่อเจ้าของลายเซ็น
                     designation: String, // ตำแหน่งในสัญญา (เช่น ผู้มีอำนาจลงนาม, พยาน เป็นต้น)
+                    host: Boolean,
                     sign_img: String // รูปภาพลายเซ็น base64-resized (ต้องปรับขนาดให้เล็กก่อนส่งมา)
                 }
             ],
@@ -44,10 +44,18 @@ const standardContractSchema = new Schema(
                 {
                     name: String,
                     designation: String,
+                    host: Boolean,
                     sign_img: String
                 }
             ]
-        }
+        },
+        suffix: String, // ข้อความท้ายสัญญา (ถ้ามี)
+        payment: { // ช่องทางชำระเงิน (ถ้ามี)
+            bank_name: String,
+            bank_branch: String,
+            account_holder: String,
+            account_number: String,
+        },
     },
     { 
         timestamps: true // เก็บเวลาการบันทึกและอัพเดทจริงอัตโนมัติ
