@@ -19,6 +19,8 @@ app.use(prefix + "/", require("./routes/index"));
 
 app.use(prefix + "/v1/creator", require("./routes/Contract/creator_route"));
 app.use(prefix + "/v1/standard", require("./routes/Contract/standard_route"));
+app.use(prefix + "/v1/request", require("./routes/Contract/request_route"));
+app.use(prefix + "/v1/main", require("./routes/Contract/main_route"));
 
 // สร้างสัญญาพื้นฐาน (BASE)
 app.use(prefix + "/base-contract", require("./routes/BaseContract/index"));

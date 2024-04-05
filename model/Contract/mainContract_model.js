@@ -83,6 +83,7 @@ const mainContractSchema = new Schema(
             {
                 code: String,
                 name: String,
+                sender: String,
                 createdAt: Date
             }
         ]
