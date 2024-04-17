@@ -17,9 +17,9 @@ exports.createStandard = async (req, res, next) => {
         payment
     } = req.body
 
-    if ( !name || !type || !ref_code || !title || detail.length < 1 || !creator._id ) {
+    if ( !name || !type || !ref_code || !title || !creator._id ) {
         return res.status(404).json({
-            message: 'จำเป็นต้องเพิ่มชื่อสัญญา ประเภทสัญญา รหัสสัญญา หัวข้อสัญญา รายละเอียดสัญญา และข้อมูลผู้สร้างสัญญา',
+            message: 'จำเป็นต้องเพิ่มชื่อสัญญา ประเภทสัญญา รหัสสัญญา หัวข้อสัญญา และข้อมูลผู้สร้างสัญญา',
             status: false,
             data: null
         })
