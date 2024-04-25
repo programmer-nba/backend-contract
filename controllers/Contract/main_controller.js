@@ -6,7 +6,6 @@ const RequestContract = require('../../model/Contract/requestContract_model')
 exports.createMainContract = async (req, res, next) => {
     const { 
         req_id,
-        name,
         title,
         ref_code,
         type,
@@ -21,7 +20,7 @@ exports.createMainContract = async (req, res, next) => {
         sender
     } = req.body
 
-    if ( !name || !type || !ref_code || !title || detail.length < 1 || !creator._id ) {
+    if ( !type || !ref_code || !title || detail.length < 1 || !creator._id ) {
         return res.status(404).json({
             message: 'จำเป็นต้องเพิ่มชื่อสัญญา ประเภทสัญญา รหัสสัญญา หัวข้อสัญญา รายละเอียดสัญญา และข้อมูลผู้สร้างสัญญา',
             status: false,
