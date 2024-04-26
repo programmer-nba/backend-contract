@@ -9,13 +9,7 @@ const mainContractSchema = new Schema(
         code: String, // รหัสสัญญา รันตาม ref_code จาก standard-contract + รหัสลูกค้า หรือ เลขภายใน
         start_date: Date, // วันที่สร้างสัญญา (ตาม input)
         due_date: Date, // วันที่สิ้นสุดสัญญา (ตาม input)
-        detail: [ // รายละเอียดสัญญา อาจมีได้หลายข้อ
-            {
-                header: String, // หัวข้อข้อความ (ถ้ามี)
-                body: String, // รายละเอียดข้อความ
-                footer: String // ท้ายข้อความ (ถ้ามี)
-            }
-        ],
+        detail: String,
         creator: { // ผู้สร้างสัญญา
             name: String, // ชื่อเต็มบริษัท หรือ ถ้าเป็นบุคคล ต้องมีคำนำหน้า
             code: String, // รหัสผู้สร้างสัญญา (ถ้ามี)

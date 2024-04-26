@@ -17,7 +17,7 @@ exports.createStandard = async (req, res, next) => {
         payment
     } = req.body
 
-    if ( !name || !type || !ref_code || !title || !creator._id ) {
+    if ( !type || !ref_code || !title || !creator._id ) {
         return res.status(404).json({
             message: 'จำเป็นต้องเพิ่มชื่อสัญญา ประเภทสัญญา รหัสสัญญา หัวข้อสัญญา และข้อมูลผู้สร้างสัญญา',
             status: false,
@@ -33,7 +33,7 @@ exports.createStandard = async (req, res, next) => {
                 ref_code: ref_code,
                 start_date: start_date || new Date(),
                 due_date: due_date || new Date(),
-                detail: [...detail],
+                detail: detail,
                 creator: {...creator},
                 signature: {
                     creator: creator_signature?.length > 0 ? [...creator_signature] : [],
@@ -101,7 +101,7 @@ exports.updateStandard = async (req, res, next) => {
         standard.type = type || standard.type
         standard.start_date = start_date || standard.start_date
         standard.due_date = due_date || standard.due_date
-        standard.detail = detail?.length > 0 ? [...detail] : standard.detail
+        standard.detail = detail ? detail : standard.detail
         standard.creator = creator ? {...creator} : standard.creator
         standard.signature.creator = creator_signature?.length > 0 ? [...creator_signature] : standard.signature.creator
         standard.suffix = suffix || standard.suffix
