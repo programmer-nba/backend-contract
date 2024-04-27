@@ -4,6 +4,8 @@ const { Schema } = mongoose
 const mainContractSchema = new Schema(
     {
         req_id: String, // _id ของคำขอสร้างสัญญา
+        ref_code: String,
+        ref_id: String,
         title: String, // หัวข้อสัญญา
         type: String, // ประเภทสัญญา
         code: String, // รหัสสัญญา รันตาม ref_code จาก standard-contract + รหัสลูกค้า หรือ เลขภายใน

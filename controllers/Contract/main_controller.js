@@ -8,7 +8,9 @@ exports.createMainContract = async (req, res, next) => {
         req_id,
         title,
         ref_code,
+        ref_id,
         type,
+        creator_id,
         start_date,
         due_date,
         detail,
@@ -20,9 +22,9 @@ exports.createMainContract = async (req, res, next) => {
         sender
     } = req.body
 
-    if ( !type || !ref_code || !title || detail.length < 1 || !creator._id ) {
+    if ( !ref_id ) {
         return res.status(404).json({
-            message: 'จำเป็นต้องเพิ่มชื่อสัญญา ประเภทสัญญา รหัสสัญญา หัวข้อสัญญา รายละเอียดสัญญา และข้อมูลผู้สร้างสัญญา',
+            message: 'จำเป็นต้องเพิ่ม id สัญญาหลัก',
             status: false,
             data: null
         })
@@ -30,27 +32,36 @@ exports.createMainContract = async (req, res, next) => {
 
     try {
         const request = await RequestContract.findById(req_id)
-        if (!request) {
+
+        const mainContracts = await MainContract.find()
+        
+        const customer = request ? {...request.customer} : null
+
+        const standard = await StandardContract.findById(ref_id)
+        if (!standard) {
             return res.status(404).json({
-                message: "ไม่พบคำขอนี้ในระบบ",
+                message: 'ไม่พบ _id สัญญาหลัก',
                 status: false,
                 data: null
             })
         }
 
-        const mainContracts = await MainContract.find()
-        const code = `${ref_code}-${mainContracts.length+1}`
-        const customer = {...request.customer}
+        const creatorRef = await Creator.findById(creator_id)
+
+        const code = `${standard.ref_code}-${mainContracts.length+1}`
+
         const new_mainContract = new MainContract(
             {
-                req_id: req_id,
-                title: title,
-                type: type,
+                req_id: req_id || null,
+                title: standard.title,
+                type: standard.type,
+                ref_id: standard._id,
+                ref_code: standard.ref_code,
                 code: code, // รหัสสัญญา รันตาม ref_code จาก standard-contract + รหัสลูกค้า หรือ เลขภายใน
                 start_date: start_date || new Date(), // วันที่สร้างสัญญา (ตาม input)
-                due_date: due_date || start_date || new Date(), // วันที่สิ้นสุดสัญญา (ตาม input)
-                detail: detail,
-                creator: { // ผู้สร้างสัญญา
+                due_date: due_date || null, // วันที่สิ้นสุดสัญญา (ตาม input)
+                detail: detail || standard.detail,
+                creator: creator ? { // ผู้สร้างสัญญา
                     name: creator?.name, // ชื่อเต็มบริษัท หรือ ถ้าเป็นบุคคล ต้องมีคำนำหน้า
                     code: creator?.code, // รหัสผู้สร้างสัญญา (ถ้ามี)
                     _id: creator?._id, // _id ผูัสร้างสัญญา (ถ้ามี)
@@ -61,6 +72,17 @@ exports.createMainContract = async (req, res, next) => {
                     contact_person: creator?.contact_person, // ชื่อผู้ประสานงานหลัก
                     contact_tel: creator?.contact_tel, // เบอร์ติดต่อผู้ประสานงานหลัก
                     contact_email: creator?.contact_email, // email
+                } : { // ผู้สร้างสัญญา
+                    name: creatorRef?.name, // ชื่อเต็มบริษัท หรือ ถ้าเป็นบุคคล ต้องมีคำนำหน้า
+                    code: creatorRef?.code, // รหัสผู้สร้างสัญญา (ถ้ามี)
+                    _id: creatorRef?._id, // _id ผูัสร้างสัญญา (ถ้ามี)
+                    tax_id: creatorRef?.tax_id, // เลขประจำตัวผู้เสียภาษี
+                    stamp_img: creatorRef?.stamp_img, // stamp บริษัท (ถ้ามี) base64-resized
+                    logo_img: creatorRef?.logo_img, // logo บริษัท base64-resized
+                    address: creatorRef?.address, // ที่อยู่เต็มของผู้สร้างสัญญา (บ้านเลขที่ - รหัสไปรษณีย์ เว้นวรรค 1)
+                    contact_person: creatorRef?.contact_person, // ชื่อผู้ประสานงานหลัก
+                    contact_tel: creatorRef?.contact_tel, // เบอร์ติดต่อผู้ประสานงานหลัก
+                    contact_email: creatorRef?.contact_email, // email
                 },
                 customer: { // ลูกค้า หรือ พาร์ทเนอร์ ผู้ทำสัญญา
                     name: customer?.name, // ชื่อเต็มบริษัท หรือ ถ้าเป็นบุคคล ต้องมีคำนำหน้า

@@ -13,9 +13,18 @@ exports.createRequest = async (req, res, next) => {
         sender
     } = req.body
 
-    if ( !type || !ref_id || !title ||  !customer.name ) {
+    if ( !ref_id || !customer.name ) {
         return res.status(404).json({
-            message: 'จำเป็นต้องเพิ่มชื่อลูกค้า รหัสสัญญา หัวข้อสัญญา',
+            message: 'จำเป็นต้องเพิ่มรหัสสัญญา',
+            status: false,
+            data: null
+        })
+    }
+
+    const standard = await StandardContract.findById(ref_id)
+    if (!standard) {
+        return res.status(404).json({
+            message: 'ไม่พบ ref_id ของสัญญา',
             status: false,
             data: null
         })
@@ -24,10 +33,10 @@ exports.createRequest = async (req, res, next) => {
     try {
         const new_request = new RequestContract(
             {
-                title: title, // หัวข้อสัญญา
-                type: type, // ประเภทสัญญา
+                title: standard.title, // หัวข้อสัญญา
+                type: standard.type, // ประเภทสัญญา
                 ref_id: ref_id, // รหัสสัญญา (ดึงจาก standard-contract)
-                ref_code: ref_code, // รหัสสัญญา (ดึงจาก standard-contract)
+                ref_code: standard.ref_code, // รหัสสัญญา (ดึงจาก standard-contract)
                 customer: { // ลูกค้า หรือ พาร์ทเนอร์ ผู้ทำสัญญา
                     name: customer.name, // ชื่อเต็มบริษัท หรือ ถ้าเป็นบุคคล ต้องมีคำนำหน้า
                     code: customer.code, // รหัสผู้สร้างสัญญา (ถ้ามี)
