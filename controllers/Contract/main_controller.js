@@ -245,6 +245,27 @@ exports.getMainContracts = async (req, res, next) => {
     }
 }
 
+exports.getMyMainContracts = async (req, res, next) => {
+    const { id } = req.params
+    try {
+        const mains = await MainContract.find( { 'customer._id' : id } )
+
+        return res.status(200).json({
+            message: `มีผู้สัญญาในระบบ ${mains.length}`,
+            status: true,
+            data: mains
+        })
+    }
+    catch ( error ) {
+        console.log( error )
+        return res.status(500).json({
+            message: error.message,
+            status: false,
+            data: null
+        })
+    }
+}
+
 exports.getMainContract = async (req, res, next) => {
     const { id } = req.params
     try {
